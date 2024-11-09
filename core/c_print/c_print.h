@@ -24,4 +24,6 @@ typedef struct Context
     Array *output;
 } Context;
 
+char *c_print(char *src, bool add_headers);
+
 #endif // C_PRINT_H_

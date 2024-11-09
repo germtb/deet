@@ -1,5 +1,15 @@
 CC=gcc
-CORE_DEPENDENCIES= ./core/debug/debug.c ./core/zone/zone.c ./core/string/string.c ./core/array/array.c ./core/hashmap/hashmap.c ./core/lexer/lexer.c ./core/parser/parser.c ./core/c_print/ctype.c
+CORE_DEPENDENCIES= \
+	./core/debug/debug.c \
+	./core/zone/zone.c \
+	./core/string/string.c \
+	./core/array/array.c \
+	./core/hashmap/hashmap.c \
+	./core/lexer/lexer.c \
+	./core/parser/parser.c \
+	./core/c_print/c_print.c \
+	./core/c_print/ctype.c \
+	./core/ast/ast.c
 
 test_zone:
 	$(CC) $(CORE_DEPENDENCIES) ./core/zone/zone_test.c && ./a.out
@@ -25,9 +35,13 @@ test_hashmap:
 	$(CC) $(CORE_DEPENDENCIES) ./core/hashmap/hashmap_test.c && ./a.out
 	@rm -f *.out
 
-c_print:
-	$(CC) $(CORE_DEPENDENCIES) ./core/ast/ast.c ./core/c_print/c_print.c && ./a.out
+test_c_print:
+	$(CC) $(CORE_DEPENDENCIES) ./core/c_print/c_print_test.c && ./a.out
 	@rm -f *.out
+
+# c_print:
+# 	$(CC) $(CORE_DEPENDENCIES) ./core/ast/ast.c ./core/c_print/c_print.c && ./a.out
+# 	@rm -f *.out
 
 vscode:
 	@rm -rf ~/.vscode/extensions/deet-vscode
@@ -43,3 +57,4 @@ test:
 	@make test_parser
 	@make test_lexer
 	@make test_hashmap
+	@make test_c_print

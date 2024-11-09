@@ -598,7 +598,7 @@ void print_node(Context *context, Node *node, int depth)
     }
 }
 
-char *c_print(char *src)
+char *c_print(char *src, bool add_headers)
 {
     Node *node = parse(src);
 
@@ -634,7 +634,11 @@ char *c_print(char *src)
         hashmap_set(&zone, global_context.types, "void", &void_type);
     }
 
-    print(&global_context, "#include \"stdlib.h\"\n");
+    if (add_headers)
+    {
+        print(&global_context, "#include \"stdlib.h\"\n");
+    }
+
     print_node(&global_context, node, 0);
     print(&global_context, "\n");
 
@@ -647,39 +651,39 @@ char *c_print(char *src)
     return output;
 }
 
-char *print_file(const char *filename)
-{
-    FILE *fp;
-    char *src = NULL;
+// char *print_file(const char *filename)
+// {
+//     FILE *fp;
+//     char *src = NULL;
 
-    int line = 0;
-    int col = 0;
+//     int line = 0;
+//     int col = 0;
 
-    fp = fopen(filename, "rw");
+//     fp = fopen(filename, "rw");
 
-    if (fp == NULL)
-    {
-        printf("Could not open file %s\n", filename);
-        exit(EXIT_FAILURE);
-    }
+//     if (fp == NULL)
+//     {
+//         printf("Could not open file %s\n", filename);
+//         exit(EXIT_FAILURE);
+//     }
 
-    fseek(fp, 0, SEEK_END);
-    long size = ftell(fp);
-    fseek(fp, 0, SEEK_SET);
+//     fseek(fp, 0, SEEK_END);
+//     long size = ftell(fp);
+//     fseek(fp, 0, SEEK_SET);
 
-    src = malloc(size * sizeof(char));
-    fread(src, 1, size, fp);
+//     src = malloc(size * sizeof(char));
+//     fread(src, 1, size, fp);
 
-    char *output = c_print(src);
+//     char *output = c_print(src);
 
-    printf("%s", output);
+//     printf("%s", output);
 
-    fclose(fp);
+//     fclose(fp);
 
-    return 0;
-}
+//     return 0;
+// }
 
-int main()
-{
-    print_file("./core/c_print/example_1.dt");
-}
+// int main()
+// {
+//     print_file("./core/c_print/example_1.dt");
+// }
