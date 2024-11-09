@@ -40,19 +40,19 @@ void print_node_ast(Node *node, int depth)
     printf("%s", indentation);
     printf("%s", get_node_name(node->type));
 
-    if (node->type == Number || node->type == Int8 || node->type == Int16 || node->type == Int32 || node->type == Int64 || node->type == Uint8 || node->type == Uint16 || node->type == Uint32 || node->type == Uint64 || node->type == Float32 || node->type == Float64)
+    if (node->type == NNumber || node->type == NInt8 || node->type == NInt16 || node->type == NInt32 || node->type == NInt64 || node->type == NUint8 || node->type == NUint16 || node->type == NUint32 || node->type == NUint64 || node->type == NFloat32 || node->type == NFloat64)
     {
         printf("(%s)\n", node->str_value);
     }
-    else if (node->type == StringLiteral || node->type == TypeIdentifier || node->type == Identifier || node->type == EffectIdentifier)
+    else if (node->type == NStringLiteral || node->type == NTypeIdentifier || node->type == NIdentifier || node->type == NEffectIdentifier)
     {
         printf("(%s)\n", node->str_value);
     }
-    else if (node->type == True)
+    else if (node->type == NTrue)
     {
         printf("(true)\n");
     }
-    else if (node->type == False)
+    else if (node->type == NFalse)
     {
         printf("(false)\n");
     }

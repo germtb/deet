@@ -139,7 +139,7 @@ static void consume(ParserAcc *acc, enum TokenType expected)
 
 static Node *function_arg(ParserAcc *acc)
 {
-    Node *node = make_node(FunctionArg);
+    Node *node = make_node(NFunctionArg);
 
     append_child(node, identifier(acc));
     if (match(acc, TColon))
@@ -152,7 +152,7 @@ static Node *function_arg(ParserAcc *acc)
 
 static Node *function_args(ParserAcc *acc)
 {
-    Node *node = make_node(FunctionArgs);
+    Node *node = make_node(NFunctionArgs);
 
     if (match(acc, TOpenParens))
     {
@@ -163,7 +163,7 @@ static Node *function_args(ParserAcc *acc)
     }
     else
     {
-        Node *arg = make_node(FunctionArg);
+        Node *arg = make_node(NFunctionArg);
         append_child(arg, identifier(acc));
         append_child(node, arg);
     }
@@ -173,7 +173,7 @@ static Node *function_args(ParserAcc *acc)
 
 static Node *fn(ParserAcc *acc)
 {
-    Node *node = make_node(Function);
+    Node *node = make_node(NFunction);
 
     append_child(node, function_args(acc));
 
@@ -198,7 +198,7 @@ static Node *fn(ParserAcc *acc)
 
 static Node *fn_declaration(ParserAcc *acc)
 {
-    Node *node = make_node(FunctionDeclaration);
+    Node *node = make_node(NFunctionDeclaration);
 
     append_child(node, identifier(acc));
     append_child(node, function_args(acc));
@@ -210,7 +210,7 @@ static Node *fn_declaration(ParserAcc *acc)
     }
     else
     {
-        Node *void_type = make_node(TypeIdentifier);
+        Node *void_type = make_node(NTypeIdentifier);
         void_type->str_value = "void";
         append_child(node, void_type);
         append_child(node, block(acc));
@@ -221,7 +221,7 @@ static Node *fn_declaration(ParserAcc *acc)
 
 static Node *array(ParserAcc *acc)
 {
-    Node *node = make_node(Array);
+    Node *node = make_node(NArray);
 
     while (!match(acc, TCloseSquareBracket))
     {
@@ -233,7 +233,7 @@ static Node *array(ParserAcc *acc)
 
 static Node *struct_property(ParserAcc *acc)
 {
-    Node *node = make_node(StructProperty);
+    Node *node = make_node(NStructProperty);
 
     append_child(node, identifier(acc));
     consume(acc, TColon);
@@ -244,7 +244,7 @@ static Node *struct_property(ParserAcc *acc)
 
 static Node *struct_expression(ParserAcc *acc)
 {
-    Node *node = make_node(Struct);
+    Node *node = make_node(NStruct);
 
     if (match(acc, TCloseCurlyBracket))
     {
@@ -268,7 +268,7 @@ static Node *struct_expression(ParserAcc *acc)
 
 static Node *block(ParserAcc *acc)
 {
-    Node *node = make_node(Block);
+    Node *node = make_node(NBlock);
 
     consume(acc, TOpenCurlyBracket);
 
@@ -282,7 +282,7 @@ static Node *block(ParserAcc *acc)
 
 static Node *else_if_node(ParserAcc *acc)
 {
-    Node *node = make_node(ElseIf);
+    Node *node = make_node(NElseIf);
 
     consume(acc, TOpenParens);
     append_child(node, expression(acc));
@@ -304,7 +304,7 @@ static Node *else_node(ParserAcc *acc)
         return else_if_node(acc);
     }
 
-    Node *node = make_node(Else);
+    Node *node = make_node(NElse);
     append_child(node, block(acc));
 
     return node;
@@ -312,7 +312,7 @@ static Node *else_node(ParserAcc *acc)
 
 static Node *if_node(ParserAcc *acc)
 {
-    Node *node = make_node(If);
+    Node *node = make_node(NIf);
 
     consume(acc, TOpenParens);
     append_child(node, expression(acc));
@@ -331,23 +331,23 @@ static Node *primary(ParserAcc *acc)
 {
     if (match(acc, TTrue))
     {
-        Node *node = make_node(True);
+        Node *node = make_node(NTrue);
         return node;
     }
     else if (match(acc, TFalse))
     {
-        Node *node = make_node(False);
+        Node *node = make_node(NFalse);
         return node;
     }
     else if (match(acc, TString))
     {
-        Node *node = make_node(StringLiteral);
+        Node *node = make_node(NStringLiteral);
         node->str_value = previous(acc)->content;
         return node;
     }
     else if (match(acc, TStringInterpolation))
     {
-        Node *str = make_node(StringInterpolation);
+        Node *str = make_node(NStringInterpolation);
         str->str_value = previous(acc)->content;
 
         while (true)
@@ -355,13 +355,13 @@ static Node *primary(ParserAcc *acc)
 
             if (match(acc, TIdentifier))
             {
-                Node *node = make_node(Identifier);
+                Node *node = make_node(NIdentifier);
                 node->str_value = previous(acc)->content;
                 append_child(str, node);
             }
             else if (match(acc, TStringInterpolation))
             {
-                Node *node = make_node(StringInterpolation);
+                Node *node = make_node(NStringInterpolation);
                 node->str_value = previous(acc)->content;
                 append_child(str, node);
             }
@@ -375,73 +375,73 @@ static Node *primary(ParserAcc *acc)
     }
     else if (match(acc, TUint8))
     {
-        Node *node = make_node(Uint8);
+        Node *node = make_node(NUint8);
         node->str_value = previous(acc)->content;
         return node;
     }
     else if (match(acc, TUint16))
     {
-        Node *node = make_node(Uint16);
+        Node *node = make_node(NUint16);
         node->str_value = previous(acc)->content;
         return node;
     }
     else if (match(acc, TUint32))
     {
-        Node *node = make_node(Uint32);
+        Node *node = make_node(NUint32);
         node->str_value = previous(acc)->content;
         return node;
     }
     else if (match(acc, TUint64))
     {
-        Node *node = make_node(Uint64);
+        Node *node = make_node(NUint64);
         node->str_value = previous(acc)->content;
         return node;
     }
     else if (match(acc, TInt8))
     {
-        Node *node = make_node(Int8);
+        Node *node = make_node(NInt8);
         node->str_value = previous(acc)->content;
         return node;
     }
     else if (match(acc, TInt16))
     {
-        Node *node = make_node(Int16);
+        Node *node = make_node(NInt16);
         node->str_value = previous(acc)->content;
         return node;
     }
     else if (match(acc, TInt32))
     {
-        Node *node = make_node(Int32);
+        Node *node = make_node(NInt32);
         node->str_value = previous(acc)->content;
         return node;
     }
     else if (match(acc, TInt64))
     {
-        Node *node = make_node(Int64);
+        Node *node = make_node(NInt64);
         node->str_value = previous(acc)->content;
         return node;
     }
     else if (match(acc, TFloat32))
     {
-        Node *node = make_node(Float32);
+        Node *node = make_node(NFloat32);
         node->str_value = previous(acc)->content;
         return node;
     }
     else if (match(acc, TFloat64))
     {
-        Node *node = make_node(Float64);
+        Node *node = make_node(NFloat64);
         node->str_value = previous(acc)->content;
         return node;
     }
     else if (match(acc, TNumber))
     {
-        Node *node = make_node(Number);
+        Node *node = make_node(NNumber);
         node->str_value = previous(acc)->content;
         return node;
     }
     else if (match(acc, TDecimal))
     {
-        Node *node = make_node(Decimal);
+        Node *node = make_node(NDecimal);
         node->str_value = previous(acc)->content;
         return node;
     }
@@ -476,7 +476,7 @@ static Node *primary(ParserAcc *acc)
 
 static Node *call_arg(ParserAcc *acc)
 {
-    Node *node = make_node(CallArg);
+    Node *node = make_node(NCallArg);
 
     if (peek(acc, TIdentifier) || peek(acc, TIdentifier))
     {
@@ -491,7 +491,7 @@ static Node *call_arg(ParserAcc *acc)
 
 static Node *call_args(ParserAcc *acc)
 {
-    Node *node = make_node(CallArgs);
+    Node *node = make_node(NCallArgs);
 
     while (!match(acc, TCloseParens))
     {
@@ -507,7 +507,7 @@ static Node *pipe_expression(ParserAcc *acc)
 
     if (peek(acc, TPipe))
     {
-        Node *node = make_node(Pipe);
+        Node *node = make_node(NPipe);
         append_child(node, left);
 
         while (match(acc, TPipe))
@@ -527,7 +527,7 @@ static Node *call_expression(ParserAcc *acc)
 
     if (match(acc, TOpenParens))
     {
-        Node *node = make_node(Call);
+        Node *node = make_node(NCall);
         append_child(node, left);
         append_child(node, call_args(acc));
         return node;
@@ -538,28 +538,28 @@ static Node *call_expression(ParserAcc *acc)
 
 static Node *post_increment(ParserAcc *acc)
 {
-    Node *node = make_node(PostIncrement);
+    Node *node = make_node(NPostIncrement);
     append_child(node, identifier(acc));
     return node;
 }
 
 static Node *post_decrement(ParserAcc *acc)
 {
-    Node *node = make_node(PostDecrement);
+    Node *node = make_node(NPostDecrement);
     append_child(node, identifier(acc));
     return node;
 }
 
 static Node *pre_increment(ParserAcc *acc)
 {
-    Node *node = make_node(PreIncrement);
+    Node *node = make_node(NPreIncrement);
     append_child(node, identifier(acc));
     return node;
 }
 
 static Node *pre_decrement(ParserAcc *acc)
 {
-    Node *node = make_node(PreDecrement);
+    Node *node = make_node(NPreDecrement);
     append_child(node, identifier(acc));
     return node;
 }
@@ -568,13 +568,13 @@ static Node *unary(ParserAcc *acc)
 {
     if (match(acc, TNot))
     {
-        Node *node = make_node(Not);
+        Node *node = make_node(NNot);
         append_child(node, call_expression(acc));
         return node;
     }
     else if (match(acc, TSub))
     {
-        Node *node = make_node(Negative);
+        Node *node = make_node(NNegative);
         append_child(node, call_expression(acc));
         return node;
     }
@@ -600,14 +600,14 @@ static Node *factor(ParserAcc *acc)
 
     if (match(acc, TMul))
     {
-        Node *node = make_node(Mul);
+        Node *node = make_node(NMul);
         append_child(node, left);
         append_child(node, unary(acc));
         return node;
     }
     else if (match(acc, TDiv))
     {
-        Node *node = make_node(Div);
+        Node *node = make_node(NDiv);
         append_child(node, left);
         append_child(node, unary(acc));
         return node;
@@ -622,14 +622,14 @@ static Node *term(ParserAcc *acc)
 
     if (match(acc, TAdd))
     {
-        Node *node = make_node(Add);
+        Node *node = make_node(NAdd);
         append_child(node, left);
         append_child(node, factor(acc));
         return node;
     }
     else if (match(acc, TSub))
     {
-        Node *node = make_node(Sub);
+        Node *node = make_node(NSub);
         append_child(node, left);
         append_child(node, factor(acc));
         return node;
@@ -644,28 +644,28 @@ static Node *comparison(ParserAcc *acc)
 
     if (match(acc, TSt))
     {
-        Node *node = make_node(St);
+        Node *node = make_node(NSt);
         append_child(node, left);
         append_child(node, term(acc));
         return node;
     }
     else if (match(acc, TSe))
     {
-        Node *node = make_node(Se);
+        Node *node = make_node(NSe);
         append_child(node, left);
         append_child(node, term(acc));
         return node;
     }
     else if (match(acc, TGt))
     {
-        Node *node = make_node(Gt);
+        Node *node = make_node(NGt);
         append_child(node, left);
         append_child(node, term(acc));
         return node;
     }
     else if (match(acc, TGe))
     {
-        Node *node = make_node(Ge);
+        Node *node = make_node(NGe);
         append_child(node, left);
         append_child(node, term(acc));
         return node;
@@ -680,14 +680,14 @@ static Node *equality(ParserAcc *acc)
 
     if (match(acc, TEq))
     {
-        Node *node = make_node(Eq);
+        Node *node = make_node(NEq);
         append_child(node, left);
         append_child(node, comparison(acc));
         return node;
     }
     else if (match(acc, TNeq))
     {
-        Node *node = make_node(Neq);
+        Node *node = make_node(NNeq);
         append_child(node, left);
         append_child(node, comparison(acc));
         return node;
@@ -702,21 +702,21 @@ static Node *boolean_operation(ParserAcc *acc)
 
     if (match(acc, TAnd))
     {
-        Node *node = make_node(And);
+        Node *node = make_node(NAnd);
         append_child(node, left);
         append_child(node, expression(acc));
         return node;
     }
     else if (match(acc, TOr))
     {
-        Node *node = make_node(Or);
+        Node *node = make_node(NOr);
         append_child(node, left);
         append_child(node, expression(acc));
         return node;
     }
     else if (match(acc, TXor))
     {
-        Node *node = make_node(Xor);
+        Node *node = make_node(NXor);
         append_child(node, left);
         append_child(node, expression(acc));
         return node;
@@ -731,14 +731,14 @@ static Node *bit_operation(ParserAcc *acc)
 
     if (match(acc, TBitAnd))
     {
-        Node *node = make_node(BitAnd);
+        Node *node = make_node(NBitAnd);
         append_child(node, left);
         append_child(node, boolean_operation(acc));
         return node;
     }
     else if (match(acc, TBitOr))
     {
-        Node *node = make_node(BitOr);
+        Node *node = make_node(NBitOr);
         append_child(node, left);
         append_child(node, boolean_operation(acc));
         return node;
@@ -753,13 +753,13 @@ static Node *access(ParserAcc *acc)
 
     while (match(acc, TAccess))
     {
-        Node *node = make_node(Access);
+        Node *node = make_node(NAccess);
         append_child(node, left);
         append_child(node, identifier(acc));
 
         if (match(acc, TOpenParens))
         {
-            Node *call = make_node(Call);
+            Node *call = make_node(NCall);
             append_child(call, node);
             append_child(call, call_args(acc));
             left = call;
@@ -780,14 +780,14 @@ static Node *expression(ParserAcc *acc)
 
 static Node *return_statement(ParserAcc *acc)
 {
-    Node *node = make_node(Return);
+    Node *node = make_node(NReturn);
     append_child(node, expression(acc));
     return node;
 }
 
 static Node *for_statement(ParserAcc *acc)
 {
-    Node *node = make_node(For);
+    Node *node = make_node(NFor);
 
     consume(acc, TOpenParens);
     consume(acc, TVar);
@@ -805,7 +805,7 @@ static Node *for_statement(ParserAcc *acc)
 
 static Node *while_statement(ParserAcc *acc)
 {
-    Node *node = make_node(While);
+    Node *node = make_node(NWhile);
 
     consume(acc, TOpenParens);
     append_child(node, expression(acc));
@@ -839,13 +839,13 @@ static Node *statement(ParserAcc *acc)
     }
     else if (match(acc, TBreak))
     {
-        Node *node = make_node(Break);
+        Node *node = make_node(NBreak);
         consume(acc, TSemicolon);
         return node;
     }
     else if (match(acc, TContinue))
     {
-        Node *node = make_node(Continue);
+        Node *node = make_node(NContinue);
         consume(acc, TSemicolon);
         return node;
     }
@@ -879,7 +879,7 @@ static Node *statement(ParserAcc *acc)
     }
     else if (match(acc, TComment))
     {
-        Node *node = make_node(Comment);
+        Node *node = make_node(NComment);
         node->str_value = previous(acc)->content;
         return node;
     }
@@ -889,7 +889,7 @@ static Node *statement(ParserAcc *acc)
     }
     else
     {
-        Node *node = make_node(Statement);
+        Node *node = make_node(NStatement);
         append_child(node, expression(acc));
         consume(acc, TSemicolon);
         return node;
@@ -898,7 +898,7 @@ static Node *statement(ParserAcc *acc)
 
 static Node *struct_type_property(ParserAcc *acc)
 {
-    Node *node = make_node(StructProperty);
+    Node *node = make_node(NStructProperty);
 
     append_child(node, identifier(acc));
     consume(acc, TColon);
@@ -909,7 +909,7 @@ static Node *struct_type_property(ParserAcc *acc)
 
 static Node *struct_type(ParserAcc *acc)
 {
-    Node *node = make_node(Struct);
+    Node *node = make_node(NStruct);
 
     if (match(acc, TCloseCurlyBracket))
     {
@@ -950,7 +950,7 @@ static Node *type_expression(ParserAcc *acc)
 
 static Node *const_declaration(ParserAcc *acc)
 {
-    Node *node = make_node(ConstDeclaration);
+    Node *node = make_node(NConstDeclaration);
 
     append_child(node, identifier(acc));
 
@@ -969,7 +969,7 @@ static Node *const_declaration(ParserAcc *acc)
 
 static Node *var_reassign(ParserAcc *acc)
 {
-    Node *node = make_node(Reassignment);
+    Node *node = make_node(NReassignment);
 
     append_child(node, identifier(acc));
     consume(acc, TAssign);
@@ -980,7 +980,7 @@ static Node *var_reassign(ParserAcc *acc)
 
 static Node *var_declaration(ParserAcc *acc)
 {
-    Node *node = make_node(VarDeclaration);
+    Node *node = make_node(NVarDeclaration);
     append_child(node, identifier(acc));
 
     if (match(acc, TColon))
@@ -998,7 +998,7 @@ static Node *var_declaration(ParserAcc *acc)
 
 static Node *struct_declaration(ParserAcc *acc)
 {
-    Node *node = make_node(StructDeclaration);
+    Node *node = make_node(NStructDeclaration);
 
     append_child(node, type_identifier(acc));
     consume(acc, TOpenCurlyBracket);
@@ -1013,7 +1013,7 @@ static Node *struct_declaration(ParserAcc *acc)
 
 static Node *type_declaration(ParserAcc *acc)
 {
-    Node *node = make_node(TypeDeclaration);
+    Node *node = make_node(NTypeDeclaration);
 
     append_child(node, type_identifier(acc));
     consume(acc, TAssign);
@@ -1027,7 +1027,7 @@ static Node *effect_identifier(ParserAcc *acc)
 
     if (match(acc, TEffectIdentifier))
     {
-        Node *node = make_node(EffectIdentifier);
+        Node *node = make_node(NEffectIdentifier);
         node->str_value = previous(acc)->content;
         return node;
     }
@@ -1040,18 +1040,18 @@ static Node *identifier(ParserAcc *acc)
 {
     if (match(acc, TIdentifier))
     {
-        Node *node = make_node(Identifier);
+        Node *node = make_node(NIdentifier);
         node->str_value = previous(acc)->content;
 
         if (match(acc, TIncrement))
         {
-            Node *increment = make_node(PostIncrement);
+            Node *increment = make_node(NPostIncrement);
             append_child(increment, node);
             return increment;
         }
         else if (match(acc, TDecrement))
         {
-            Node *decrement = make_node(PostDecrement);
+            Node *decrement = make_node(NPostDecrement);
             append_child(decrement, node);
             return decrement;
         }
@@ -1069,19 +1069,19 @@ static Node *type_identifier(ParserAcc *acc)
 {
     if (match(acc, TIdentifier))
     {
-        Node *node = make_node(TypeIdentifier);
+        Node *node = make_node(NTypeIdentifier);
         node->str_value = previous(acc)->content;
 
         if (match(acc, TOpenSquareBracket))
         {
-            Node *array = make_node(Array);
+            Node *array = make_node(NArray);
             append_child(array, node);
             consume(acc, TCloseSquareBracket);
             return array;
         }
         else if (match(acc, TSt))
         {
-            Node *type_parameters = make_node(TypeParameters);
+            Node *type_parameters = make_node(NTypeParameters);
 
             while (true)
             {
@@ -1109,14 +1109,14 @@ static Node *type_identifier(ParserAcc *acc)
 
 static Node *program(ParserAcc *acc)
 {
-    Node *node = make_node(Program);
+    Node *node = make_node(NProgram);
 
     while (!match(acc, TEnd))
     {
         append_child(node, statement(acc));
     }
 
-    append_child(node, make_node(End));
+    append_child(node, make_node(NEnd));
 
     return node;
 }
@@ -1148,155 +1148,155 @@ const char *get_node_name(enum NodeType type)
 {
     switch (type)
     {
-    case Number:
+    case NNumber:
         return "Number";
-    case Decimal:
+    case NDecimal:
         return "Decimal";
-    case Int8:
+    case NInt8:
         return "Int8";
-    case Int16:
+    case NInt16:
         return "Int16";
-    case Int32:
+    case NInt32:
         return "Int32";
-    case Int64:
+    case NInt64:
         return "Int64";
-    case Uint8:
+    case NUint8:
         return "Uint8";
-    case Uint16:
+    case NUint16:
         return "Uint16";
-    case Uint32:
+    case NUint32:
         return "Uint32";
-    case Uint64:
+    case NUint64:
         return "Uint64";
-    case Float32:
+    case NFloat32:
         return "Float32";
-    case Float64:
+    case NFloat64:
         return "Float64";
-    case StringLiteral:
+    case NStringLiteral:
         return "StringLiteral";
-    case StringInterpolation:
+    case NStringInterpolation:
         return "StringInterpolation";
-    case True:
+    case NTrue:
         return "True";
-    case False:
+    case NFalse:
         return "False";
-    case Struct:
+    case NStruct:
         return "Struct";
-    case StructProperty:
+    case NStructProperty:
         return "StructProperty";
-    case Access:
+    case NAccess:
         return "Access";
-    case Array:
+    case NArray:
         return "Array";
-    case If:
+    case NIf:
         return "If";
-    case Else:
+    case NElse:
         return "Else";
-    case ElseIf:
+    case NElseIf:
         return "ElseIf";
-    case While:
+    case NWhile:
         return "While";
-    case For:
+    case NFor:
         return "For";
-    case Continue:
+    case NContinue:
         return "Continue";
-    case Break:
+    case NBreak:
         return "Break";
-    case StructDeclaration:
+    case NStructDeclaration:
         return "StructDeclaration";
-    case TypeParameters:
+    case NTypeParameters:
         return "TypeParameters";
-    case Match:
+    case NMatch:
         return "Match";
-    case MatchCase:
+    case NMatchCase:
         return "MatchCase";
-    case DefaultCase:
+    case NDefaultCase:
         return "DefaultCase";
-    case Pattern:
+    case NPattern:
         return "Pattern";
-    case Return:
+    case NReturn:
         return "Return";
-    case Identifier:
+    case NIdentifier:
         return "Identifier";
-    case EffectIdentifier:
+    case NEffectIdentifier:
         return "EffectIdentifier";
-    case FunctionDeclaration:
+    case NFunctionDeclaration:
         return "FunctionDeclaration";
-    case Function:
+    case NFunction:
         return "Function";
-    case FunctionArgs:
+    case NFunctionArgs:
         return "FunctionArgs";
-    case FunctionArg:
+    case NFunctionArg:
         return "FunctionArg";
-    case Call:
+    case NCall:
         return "Call";
-    case Pipe:
+    case NPipe:
         return "Pipe";
-    case CallArg:
+    case NCallArg:
         return "CallArg";
-    case CallArgs:
+    case NCallArgs:
         return "CallArgs";
-    case Add:
+    case NAdd:
         return "Add";
-    case Sub:
+    case NSub:
         return "Sub";
-    case Mul:
+    case NMul:
         return "Mul";
-    case Div:
+    case NDiv:
         return "Div";
-    case Ge:
+    case NGe:
         return "Ge";
-    case Gt:
+    case NGt:
         return "Gt";
-    case Se:
+    case NSe:
         return "Se";
-    case St:
+    case NSt:
         return "St";
-    case Eq:
+    case NEq:
         return "Eq";
-    case Neq:
+    case NNeq:
         return "Neq";
-    case And:
+    case NAnd:
         return "And";
-    case Or:
+    case NOr:
         return "Or";
-    case Xor:
+    case NXor:
         return "Xor";
-    case BitAnd:
+    case NBitAnd:
         return "BitAnd";
-    case BitOr:
+    case NBitOr:
         return "BitOr";
-    case Not:
+    case NNot:
         return "Not";
-    case Negative:
+    case NNegative:
         return "Negative";
-    case PostIncrement:
+    case NPostIncrement:
         return "PostIncrement";
-    case PostDecrement:
+    case NPostDecrement:
         return "PostDecrement";
-    case PreIncrement:
+    case NPreIncrement:
         return "PreIncrement";
-    case PreDecrement:
+    case NPreDecrement:
         return "PreDecrement";
-    case Reassignment:
+    case NReassignment:
         return "Reassignment";
-    case TypeDeclaration:
+    case NTypeDeclaration:
         return "TypeDeclaration";
-    case VarDeclaration:
+    case NVarDeclaration:
         return "VarDeclaration";
-    case ConstDeclaration:
+    case NConstDeclaration:
         return "ConstDeclaration";
-    case Statement:
+    case NStatement:
         return "Statement";
-    case Comment:
+    case NComment:
         return "Comment";
-    case Program:
+    case NProgram:
         return "Program";
-    case TypeIdentifier:
+    case NTypeIdentifier:
         return "TypeIdentifier";
-    case Block:
+    case NBlock:
         return "Block";
-    case End:
+    case NEnd:
         return "End";
     default:
     {

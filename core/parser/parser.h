@@ -6,111 +6,111 @@
 enum NodeType
 {
     // Number
-    Number,
-    Decimal,
-    Int8,
-    Int16,
-    Int32,
-    Int64,
-    Uint8,
-    Uint16,
-    Uint32,
-    Uint64,
-    Float32,
-    Float64,
+    NNumber,
+    NDecimal,
+    NInt8,
+    NInt16,
+    NInt32,
+    NInt64,
+    NUint8,
+    NUint16,
+    NUint32,
+    NUint64,
+    NFloat32,
+    NFloat64,
 
     // Strings
-    StringLiteral,
-    StringInterpolation,
+    NStringLiteral,
+    NStringInterpolation,
 
     // Booleans
-    True,
-    False,
+    NTrue,
+    NFalse,
 
     // Structs
-    Struct,
-    StructProperty,
-    Access,
+    NStruct,
+    NStructProperty,
+    NAccess,
 
     // Blocks
-    Block,
+    NBlock,
 
     // Arrays
-    Array,
+    NArray,
 
     // Flow
-    If,
-    Else,
-    ElseIf,
-    Match,
-    MatchCase,
-    DefaultCase,
-    Pattern,
+    NIf,
+    NElse,
+    NElseIf,
+    NMatch,
+    NMatchCase,
+    NDefaultCase,
+    NPattern,
 
     // Zones
-    Return,
+    NReturn,
 
     // Identifiers
-    Identifier,
-    TypeIdentifier,
-    EffectIdentifier,
+    NIdentifier,
+    NTypeIdentifier,
+    NEffectIdentifier,
 
     // Functions
-    FunctionDeclaration,
-    Function,
-    FunctionArgs,
-    FunctionArg,
-    Call,
-    CallArgs,
-    CallArg,
-    Pipe,
+    NFunctionDeclaration,
+    NFunction,
+    NFunctionArgs,
+    NFunctionArg,
+    NCall,
+    NCallArgs,
+    NCallArg,
+    NPipe,
 
     // Binary
-    Add,
-    Sub,
-    Mul,
-    Div,
-    Ge,
-    Gt,
-    Se,
-    St,
-    Eq,
-    Neq,
-    And,
-    Or,
-    Xor,
-    BitAnd,
-    BitOr,
+    NAdd,
+    NSub,
+    NMul,
+    NDiv,
+    NGe,
+    NGt,
+    NSe,
+    NSt,
+    NEq,
+    NNeq,
+    NAnd,
+    NOr,
+    NXor,
+    NBitAnd,
+    NBitOr,
 
     // Unary
-    Not,
-    Negative,
-    PostIncrement,
-    PostDecrement,
-    PreIncrement,
-    PreDecrement,
+    NNot,
+    NNegative,
+    NPostIncrement,
+    NPostDecrement,
+    NPreIncrement,
+    NPreDecrement,
 
     // Statements
-    Reassignment,
-    ConstDeclaration,
-    VarDeclaration,
-    TypeDeclaration,
-    Statement,
-    Comment,
+    NReassignment,
+    NConstDeclaration,
+    NVarDeclaration,
+    NTypeDeclaration,
+    NStatement,
+    NComment,
 
     // Program
-    Program,
-    End,
+    NProgram,
+    NEnd,
 
     // Types
-    StructDeclaration,
-    TypeParameters,
+    NStructDeclaration,
+    NTypeParameters,
 
     // Loops
-    For,
-    While,
-    Continue,
-    Break,
+    NFor,
+    NWhile,
+    NContinue,
+    NBreak,
 };
 
 const char *get_node_name(enum NodeType type);
