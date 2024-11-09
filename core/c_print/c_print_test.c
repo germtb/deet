@@ -5,7 +5,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-void string_match_ignore_whitespace(const char *given, const char *expected)
+bool string_match_ignore_whitespace(const char *given, const char *expected)
 {
     const char *s = given;
     const char *t = expected;
@@ -34,23 +34,26 @@ void string_match_ignore_whitespace(const char *given, const char *expected)
         }
         else
         {
-            printf("---\n");
-            printf("Expected:\n%s\n", expected);
-            printf("---\n");
-            printf("Got:\n%s\n", given);
-            printf("---\n");
-            printf("Failed comparing char %c with %c\n", *s, *t);
-            printf("---\n");
-
-            assert(0);
+            return false;
         }
     }
+
+    return true;
 }
 
 void test(char *given, char *expected)
 {
     char *s = c_print(given, false);
-    string_match_ignore_whitespace(s, expected);
+    if (!string_match_ignore_whitespace(s, expected))
+    {
+        printf("---\n");
+        printf("Expected:\n%s\n", expected);
+        printf("---\n");
+        printf("Got:\n%s\n", given);
+        printf("---\n");
+        printf("Failed comparing char %c with %c\n", *s, *t);
+        printf("---\n");
+    }
 }
 
 int main()
