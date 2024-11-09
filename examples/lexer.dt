@@ -1,0 +1,31 @@
+
+enum TokenType =
+    | TEnum
+    | TMatch
+    | TInt8
+    | TInt16
+    | TInt32
+    | TInt64
+
+struct Token {
+    $type: TokenType;
+    $content: String;
+}
+
+enum CurrentTokenType =
+    | Empty
+    | InNumber
+    | InUint
+    | InInt
+    | InDecimal
+
+struct LexerAcc {
+    $type: CurrentTokenType;
+    $content: String;
+    $src: String;
+    $tokens: Array<Token>;
+}
+
+pub fn tokenize(String string): Array<Token> {
+
+}

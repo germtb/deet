@@ -1,0 +1,25 @@
+{
+  "name": "deet-vscode",
+  "displayName": "deet-vscode",
+  "description": "Deet language support for vscode",
+  "version": "0.0.1",
+  "engines": {
+    "vscode": "^1.95.0"
+  },
+  "categories": [
+    "Programming Languages"
+  ],
+  "contributes": {
+    "languages": [{
+      "id": "deet",
+      "aliases": ["deet", "deet"],
+      "extensions": [".dt"],
+      "configuration": "./language-configuration.json"
+    }],
+    "grammars": [{
+      "language": "deet",
+      "scopeName": "source.deet",
+      "path": "./syntaxes/deet.tmLanguage.json"
+    }]
+  }
+}

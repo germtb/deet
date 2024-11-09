@@ -1,0 +1,140 @@
+
+fn main(): u8 {
+    const foo = 10;
+    const bar = 10;
+    return foo + bar;
+};
+
+"
+uint8_t main() {
+    uint32 cfoo = 10;
+    uint32 cbar = 10;
+    return cfoo + cbar;
+}
+"
+
+fn main(): void {
+    zone @people_zone;
+    const $person = new Person({ $name: "Chal", $date_of_birth: "10/10/1910" }) with @people_zone;
+    free @people_zone;
+};
+
+"
+void main() {
+    Zone *zpeople_zone = make_zone(1024);
+    struct Person *cperson = make_Person(zpeople_zone, make_string(\"Chal\"), make_string(\"10/10/1919\"))
+    free_zone(zpeople_zone);
+}
+"
+
+struct Person {
+    $date_of_birth: string;
+    $name: string;
+};
+
+"
+struct Person {
+    String *cdate_of_birth;
+    String *cname;
+}
+
+Person *make_person(Zone *zone, String cname, String cdate_of_birth) {
+    Person *instance = zone_alloc(zone, sizeof(struct Person));
+    instance->cname = cname;
+    instance->cdate_of_birth = cdate_of_birth;
+}
+
+Person* nPerson_make(Zone *zone, String cname, String cdate_of_birth) {
+    return make_Person(cname, cdate_of_birth);
+}
+"
+
+union Maybe<T> = None | Some(T);
+
+const $none = None;
+const $some = Some(10);
+const $some_person = Some("hello");
+
+"
+enum MaybeType {
+    Maybe_None,
+    Maybe_Some,
+}
+
+struct Maybe {
+    enum MaybeType *type;
+    void *data;
+}
+
+Maybe *make_None(Zone *zone) {
+    Maybe *instance = zone_alloc(zone);
+    instance->type = Maybe_None;
+    instance->data = NULL;
+    return instance;
+}
+
+Maybe *make_Some_i32(Zone *zntone,_t i32 data) {
+    Maybe *instance = zone_alloc(zone);
+    instance->type = Maybe_Some;
+    instance->data = data;
+    return instance;
+}
+
+Maybe *make_Some_pointer(Zone *zone, void *data) {
+    Maybe *instance = zone_alloc(zone);
+    instance->type = Maybe_Some;
+    instance->data = data;
+    return instance;
+}
+
+Maybe *cnone = make_None();
+Maybe *csome = make_Some(10);
+Maybe *csome_person = make_Some(make_String(\"hello\"));
+
+"
+
+union Result<T, E> = Success T | Error E;
+
+fn map<T, T2, E>(result: Result<T, E>, $cb: T => T2): Result<T2, E> {
+    return match result
+        | Success $t => Success $cb($t)
+        | Error _ => result;
+}
+
+fn map<T, T2, E>(result: Result<T, E>, cb: T => T2): Result<T2, E> {
+    return match(result)
+        | Success(t) => Success(cb(t))
+        | Error(_) => result;
+}
+
+const result = result_or_error |> map($, x => 2 * x);
+
+"
+enum ResultType {
+    Success,
+    Error,
+}
+
+struct Result {
+    enum ResultType *type;
+    void *data;
+}
+
+Result *map(Zone *zone, Result *result, void *(*fn)(Result *)) {
+    switch (result->type) {
+        case Success:
+            return make_Result(zone, Success, fn(result->data))
+        case Error:
+            return result;
+    }
+}
+
+int32 arrow_fn(int32 number) {
+    return number * 2;
+}
+
+Result *temp = map(zone, result_or_error, arrow_fn);
+
+Result *cresult = temp;
+
+"

@@ -1,0 +1,65 @@
+{
+	"$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+	"name": "deet",
+	"patterns": [
+		{
+			"include": "#keywords"
+		},
+		{
+			"include": "#type"
+		},
+		{
+			"include": "#const"
+		},
+		{
+			"include": "#comments"
+		},
+		{
+			"include": "#var"
+		},
+		{
+			"include": "#numbers"
+		},
+		{
+			"include": "#strings"
+		}
+	],
+	"repository": {
+	"comments": {
+			"patterns": [{
+				"name": "comment.line",
+				"match": "(\\$\\w[\\d\\w_]+)"
+			}]
+		},
+		"const": {
+			"patterns": [{
+				"name": "entity.name",
+				"match": "\\$\\w[\\d\\w_]+"
+			}]
+		},
+		"type": {
+			"patterns": [{
+				"name": "entity.name.type",
+				"match": "\\$\\w[\\d\\w_]+"
+			}]
+		},
+		"keywords": {
+			"patterns": [{
+				"name": "keyword.control.deet",
+				"match": "\\b(if|while|for|return|const|fn)\\b"
+			}]
+		},
+		"strings": {
+			"name": "string.quoted.double.deet",
+			"begin": "\"",
+			"end": "\"",
+			"patterns": [
+				{
+					"name": "constant.character.escape.deet",
+					"match": "\\\\."
+				}
+			]
+		}
+	},
+	"scopeName": "source.deet"
+}
