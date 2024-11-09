@@ -55,6 +55,12 @@ void test_str_template(Zone *zone)
     assert(strcmp(s3->data, "Hello 123.123000") == 0);
 }
 
+void test_str_complex_concat(Zone *zone)
+{
+    String *s = str(zone, "Hello");
+    s = str_concat(zone, s, str(zone, " "), str(zone, "World"), NULL);
+}
+
 int main()
 {
     Zone z = make_zone(1024);
@@ -63,5 +69,6 @@ int main()
     test_str_copy(&z);
     test_str_concat(&z);
     test_str_template(&z);
+    test_str_complex_concat(&z);
     free_zone(&z);
 }

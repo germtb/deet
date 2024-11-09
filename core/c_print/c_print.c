@@ -3,6 +3,7 @@
 #include "../hashmap/hashmap.h"
 #include "../string/string.h"
 
+#include <stdarg.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -47,10 +48,20 @@ typedef struct Context
     char *parent_name;
     ParentType parent_type;
     Zone *zone;
+    // Array *output;
 } Context;
 
-void print_children(Context *context, Node *node, int depth, int (*print)(const char *text, ...));
-void print_node(Context *context, Node *node, int depth, int (*print)(const char *text, ...));
+void print(Context *context, const char *format, ...)
+{
+    va_list args;
+    va_start(args, format);
+    // context->output = vstr_template(context->zone, args);
+    vprintf(format, args);
+    va_end(args);
+}
+
+void print_children(Context *context, Node *node, int depth);
+void print_node(Context *context, Node *node, int depth);
 CType infer_ctype(Context *context, Node *node);
 
 Context make_context(Zone *zone)
@@ -65,7 +76,8 @@ Context make_context(Zone *zone)
         .types = types,
         .variables = variables,
         .depth = 0,
-        .parent_type = InGlobalScope};
+        .parent_type = InGlobalScope,
+        .output = str(zone, "")};
 }
 
 char *sanetise_identifier(char *identifier)
@@ -80,7 +92,7 @@ char *sanetise_identifier(char *identifier)
     return identifier;
 }
 
-void print_children_from_n(Context *context, Node *node, int depth, int (*print)(const char *text, ...), int n)
+void print_children_from_n(Context *context, Node *node, int depth, int n)
 {
     NodeList *child = node->head;
     int i = 0;
@@ -89,7 +101,7 @@ void print_children_from_n(Context *context, Node *node, int depth, int (*print)
     {
         if (i >= n)
         {
-            print_node(context, child->value, depth, print);
+            print_node(context, child->value, depth);
         }
 
         i++;
@@ -97,25 +109,25 @@ void print_children_from_n(Context *context, Node *node, int depth, int (*print)
     }
 }
 
-void print_children(Context *context, Node *node, int depth, int (*print)(const char *text, ...))
+void print_children(Context *context, Node *node, int depth)
 {
     NodeList *child = node->head;
 
     while (child != NULL)
     {
-        print_node(context, child->value, depth, print);
+        print_node(context, child->value, depth);
         child = child->next;
     }
 }
 
-void print_op(Context *context, Node *node, int depth, int (*print)(const char *text, ...), char *op)
+void print_op(Context *context, Node *node, int depth, char *op)
 {
-    print_node(context, n_child(node, 0), depth, print);
-    print(" %s ", op);
-    print_node(context, n_child(node, 1), depth, print);
+    print_node(context, n_child(node, 0), depth);
+    print(context, " %s ", op);
+    print_node(context, n_child(node, 1), depth);
 }
 
-void print_node(Context *context, Node *node, int depth, int (*print)(const char *text, ...))
+void print_node(Context *context, Node *node, int depth)
 {
     char indentation[depth + 1];
     for (int i = 0; i < depth; i++)
@@ -129,128 +141,128 @@ void print_node(Context *context, Node *node, int depth, int (*print)(const char
     switch (node->type)
     {
     case StringInterpolation:
-        print("TODO");
-        print_children(context, node, depth, print);
+        print(context, "TODO");
+        print_children(context, node, depth);
         break;
     case PostIncrement:
     {
-        print_children(context, node, depth, print);
-        print("++");
+        print_children(context, node, depth);
+        print(context, "++");
         break;
     }
     case PostDecrement:
     {
-        print_children(context, node, depth, print);
-        print("--");
+        print_children(context, node, depth);
+        print(context, "--");
         break;
     }
     case PreIncrement:
     {
-        print("--");
-        print_children(context, node, depth, print);
+        print(context, "--");
+        print_children(context, node, depth);
         break;
     }
     case PreDecrement:
     {
-        print("--");
-        print_children(context, node, depth, print);
+        print(context, "--");
+        print_children(context, node, depth);
         break;
     }
     case Comment:
     {
-        print("\n%s%s", indentation, node->str_value);
+        print(context, "\n%s%s", indentation, node->str_value);
         break;
     }
     case Number:
     {
-        print("%s", node->str_value);
+        print(context, "%s", node->str_value);
         break;
     }
     case Decimal:
     {
-        print("%s", node->str_value);
+        print(context, "%s", node->str_value);
         break;
     }
     case Int8:
     {
-        print("%s", node->str_value);
+        print(context, "%s", node->str_value);
         break;
     }
     case Int16:
     {
-        print("%s", node->str_value);
+        print(context, "%s", node->str_value);
         break;
     }
     case Int32:
     {
-        print("%s", node->str_value);
+        print(context, "%s", node->str_value);
         break;
     }
     case Int64:
     {
-        print("%s", node->str_value);
+        print(context, "%s", node->str_value);
         break;
     }
     case Uint8:
     {
-        print("%s", node->str_value);
+        print(context, "%s", node->str_value);
         break;
     }
     case Uint16:
     {
-        print("%s", node->str_value);
+        print(context, "%s", node->str_value);
         break;
     }
     case Uint32:
     {
-        print("%s", node->str_value);
+        print(context, "%s", node->str_value);
         break;
     }
     case Uint64:
     {
-        print("%s", node->str_value);
+        print(context, "%s", node->str_value);
         break;
     }
     case Float32:
     {
-        print("%s", node->str_value);
+        print(context, "%s", node->str_value);
         break;
     }
     case Float64:
     {
-        print("%s", node->str_value);
+        print(context, "%s", node->str_value);
         break;
     }
     case StringLiteral:
     {
-        print("%s", node->str_value);
+        print(context, "%s", node->str_value);
         break;
     }
     case True:
     {
-        print("true");
+        print(context, "true");
         break;
     }
     case False:
     {
-        print("false");
+        print(context, "false");
         break;
     }
     case Struct:
     {
         if (context->parent_type == InStructDeclaration)
         {
-            print("{");
-            print_children(context, node, depth + 1, print);
-            print("\n%s}", indentation);
+            print(context, "{");
+            print_children(context, node, depth + 1);
+            print(context, "\n%s}", indentation);
         }
         else if (context->parent_type == InVarDeclaration)
         {
-            print_children(context, node, depth, print);
+            print_children(context, node, depth);
         }
         else
         {
-            print("Unexpected case in Struct");
+            print(context, "Unexpected case in Struct");
         }
 
         break;
@@ -259,31 +271,31 @@ void print_node(Context *context, Node *node, int depth, int (*print)(const char
     {
         if (context->parent_type == InStructDeclaration)
         {
-            print("\n%s", indentation);
-            print_node(context, n_child(node, 1), depth, print);
-            print_node(context, n_child(node, 0), depth, print);
-            print(";");
+            print(context, "\n%s", indentation);
+            print_node(context, n_child(node, 1), depth);
+            print_node(context, n_child(node, 0), depth);
+            print(context, ";");
         }
         else if (context->parent_type == InVarDeclaration)
         {
-            print("\n%s%s->", indentation, context->parent_name);
-            print_node(context, n_child(node, 0), depth, print);
-            print(" = ");
-            print_node(context, n_child(node, 1), depth, print);
-            print(";");
+            print(context, "\n%s%s->", indentation, context->parent_name);
+            print_node(context, n_child(node, 0), depth);
+            print(context, " = ");
+            print_node(context, n_child(node, 1), depth);
+            print(context, ";");
         }
         else
         {
-            print("Unexpected case in StructProperty");
+            print(context, "Unexpected case in StructProperty");
         }
 
         break;
     }
     case Access:
     {
-        print_node(context, n_child(node, 0), depth, print);
-        print("->");
-        print_node(context, n_child(node, 1), depth, print);
+        print_node(context, n_child(node, 0), depth);
+        print(context, "->");
+        print_node(context, n_child(node, 1), depth);
         break;
     }
     case Array:
@@ -320,14 +332,14 @@ void print_node(Context *context, Node *node, int depth, int (*print)(const char
     }
     case Return:
     {
-        print("\n%sreturn ", indentation);
-        print_children(context, node, depth, print);
-        print(";");
+        print(context, "\n%sreturn ", indentation);
+        print_children(context, node, depth);
+        print(context, ";");
         break;
     }
     case Identifier:
     {
-        print("%s", sanetise_identifier(node->str_value));
+        print(context, "%s", sanetise_identifier(node->str_value));
         break;
     }
     case TypeIdentifier:
@@ -336,52 +348,52 @@ void print_node(Context *context, Node *node, int depth, int (*print)(const char
 
         if (type == NULL)
         {
-            print("TYPE_NOT_FOUND", node->str_value);
+            print(context, "TYPE_NOT_FOUND", node->str_value);
             break;
         }
         else
         {
-            print("%s", type->name);
+            print(context, "%s", type->name);
             break;
         }
     }
     case EffectIdentifier:
     {
-        print("%s", sanetise_identifier(node->str_value));
+        print(context, "%s", sanetise_identifier(node->str_value));
         break;
     }
     case FunctionDeclaration:
     {
-        print("\n");
+        print(context, "\n");
         CType return_type = infer_ctype(context, n_child(node, 2));
 
-        print("%s ", return_type.name);
-        print_node(context, n_child(node, 0), depth, print);
-        print_node(context, n_child(node, 1), depth, print);
-        print_node(context, n_child(node, 3), depth, print);
+        print(context, "%s ", return_type.name);
+        print_node(context, n_child(node, 0), depth);
+        print_node(context, n_child(node, 1), depth);
+        print_node(context, n_child(node, 3), depth);
 
         break;
     }
     case Function:
     {
-        print("fn");
-        print("(");
-        print_node(context, n_child(node, 0), depth, print);
-        print(")");
+        print(context, "fn");
+        print(context, "(");
+        print_node(context, n_child(node, 0), depth);
+        print(context, ")");
 
         Node *last_node = last_child(node);
 
-        print(" {\n");
-        print_node(context, last_node, depth + 1, print);
-        print("\n%s}", indentation);
+        print(context, " {\n");
+        print_node(context, last_node, depth + 1);
+        print(context, "\n%s}", indentation);
 
         break;
     }
     case FunctionArgs:
     {
-        print("(");
-        print_children(context, node, depth, print);
-        print(")");
+        print(context, "(");
+        print_children(context, node, depth);
+        print(context, ")");
         break;
     }
     case FunctionArg:
@@ -390,10 +402,10 @@ void print_node(Context *context, Node *node, int depth, int (*print)(const char
     }
     case Call:
     {
-        print_node(context, n_child(node, 0), depth, print);
-        print("(");
-        print_children_from_n(context, node, depth, print, 1);
-        print(")");
+        print_node(context, n_child(node, 0), depth);
+        print(context, "(");
+        print_children_from_n(context, node, depth, 1);
+        print(context, ")");
         break;
     }
     case CallArgs:
@@ -406,97 +418,97 @@ void print_node(Context *context, Node *node, int depth, int (*print)(const char
     }
     case Add:
     {
-        print_op(context, node, depth, print, "+");
+        print_op(context, node, depth, "+");
         break;
     }
     case Sub:
     {
-        print_op(context, node, depth, print, "-");
+        print_op(context, node, depth, "-");
         break;
     }
     case Mul:
     {
-        print_op(context, node, depth, print, "*");
+        print_op(context, node, depth, "*");
         break;
     }
     case Div:
     {
-        print_op(context, node, depth, print, "/");
+        print_op(context, node, depth, "/");
         break;
     }
     case Ge:
     {
-        print_op(context, node, depth, print, ">=");
+        print_op(context, node, depth, ">=");
         break;
     }
     case Gt:
     {
-        print_op(context, node, depth, print, ">");
+        print_op(context, node, depth, ">");
         break;
     }
     case Se:
     {
-        print_op(context, node, depth, print, "<=");
+        print_op(context, node, depth, "<=");
         break;
     }
     case St:
     {
-        print_op(context, node, depth, print, "<");
+        print_op(context, node, depth, "<");
         break;
     }
     case Eq:
     {
-        print_op(context, node, depth, print, "==");
+        print_op(context, node, depth, "==");
         break;
     }
     case Neq:
     {
-        print_op(context, node, depth, print, "!=");
+        print_op(context, node, depth, "!=");
         break;
     }
     case And:
     {
-        print_op(context, node, depth, print, "&&");
+        print_op(context, node, depth, "&&");
         break;
     }
     case Or:
     {
-        print_op(context, node, depth, print, "||");
+        print_op(context, node, depth, "||");
         break;
     }
     case Xor:
     {
-        print_op(context, node, depth, print, "^");
+        print_op(context, node, depth, "^");
         break;
     }
     case BitAnd:
     {
-        print_op(context, node, depth, print, "&");
+        print_op(context, node, depth, "&");
         break;
     }
     case BitOr:
     {
-        print_op(context, node, depth, print, "|");
+        print_op(context, node, depth, "|");
         break;
     }
     case Not:
     {
-        print("!");
-        print_children(context, node, depth, print);
+        print(context, "!");
+        print_children(context, node, depth);
         break;
     }
     case Negative:
     {
-        print("-");
-        print_children(context, node, depth, print);
+        print(context, "-");
+        print_children(context, node, depth);
         break;
     }
     case Reassignment:
     {
-        print("\n%s", indentation);
-        print_node(context, n_child(node, 0), depth, print);
-        print(" = ");
-        print_node(context, n_child(node, 1), depth, print);
+        print(context, "\n%s", indentation);
+        print_node(context, n_child(node, 0), depth);
+        print(context, " = ");
+        print_node(context, n_child(node, 1), depth);
         break;
     }
     case VarDeclaration:
@@ -518,23 +530,23 @@ void print_node(Context *context, Node *node, int depth, int (*print)(const char
             printf("ERROR: Unknown type\n");
         }
 
-        print("\n%s%s ", indentation, ctype.name);
+        print(context, "\n%s%s ", indentation, ctype.name);
 
         char *variable_name = sanetise_identifier(n_child(node, 0)->str_value);
-        print(" %s= ", variable_name);
+        print(context, " %s= ", variable_name);
 
         if (ctype.is_primitive)
         {
-            print_node(context, last_child(node), depth, print);
-            print(";");
+            print_node(context, last_child(node), depth);
+            print(context, ";");
         }
         else
         {
-            print("malloc(sizeof(%s));\n", ctype.primitive_name);
+            print(context, "malloc(sizeof(%s));\n", ctype.primitive_name);
             ParentType outer_type = context->parent_type;
             context->parent_type = InVarDeclaration;
             context->parent_name = variable_name;
-            print_children_from_n(context, node, depth, print, 2);
+            print_children_from_n(context, node, depth, 2);
             context->parent_type = outer_type;
         }
 
@@ -547,19 +559,19 @@ void print_node(Context *context, Node *node, int depth, int (*print)(const char
     }
     case Statement:
     {
-        print("\n%s", indentation);
-        print_children(context, node, depth, print);
-        print(";");
+        print(context, "\n%s", indentation);
+        print_children(context, node, depth);
+        print(context, ";");
         break;
     }
     case Program:
     {
-        print_children(context, node, depth, print);
+        print_children(context, node, depth);
         break;
     }
     case End:
     {
-        print("\n");
+        print(context, "\n");
         break;
     }
     case StructDeclaration:
@@ -579,19 +591,19 @@ void print_node(Context *context, Node *node, int depth, int (*print)(const char
         hashmap_set(context->zone, context->types, name, &type);
 
         context->parent_type = InStructDeclaration;
-        print("\nstruct %s", name);
-        print(" {");
-        print_children_from_n(context, node, depth + 1, print, 1);
-        print("\n};\n");
+        print(context, "\nstruct %s", name);
+        print(context, " {");
+        print_children_from_n(context, node, depth + 1, 1);
+        print(context, "\n};\n");
         context->parent_type = outer_type;
 
         break;
     }
     case Block:
     {
-        print(" {\n");
-        print_children(context, node, depth + 1, print);
-        print("\n%s}", indentation);
+        print(context, " {\n");
+        print_children(context, node, depth + 1);
+        print(context, "\n%s}", indentation);
     }
     case Pipe:
     {
@@ -683,9 +695,9 @@ char *print_file(const char *filename)
         hashmap_set(&zone, global_context.types, "void", &void_type);
     }
 
-    printf("#include \"stdlib.h\"\n");
-    print_node(&global_context, node, 0, printf);
-    printf("\n");
+    print(&global_context, "#include \"stdlib.h\"\n");
+    print_node(&global_context, node, 0);
+    print(&global_context, "\n");
 
     fclose(fp);
 

@@ -110,11 +110,8 @@ void str_fill(String *s, char c)
     }
 }
 
-String *str_template(Zone *zone, ...)
+String *vstr_template(Zone *zone, va_list args)
 {
-    va_list args;
-    va_start(args, zone);
-
     Array *results = array(zone, 100);
     char *c = va_arg(args, char *);
 
@@ -164,7 +161,15 @@ String *str_template(Zone *zone, ...)
         c++;
     }
 
+    return array_empty_join(zone, results);
+}
+
+String *str_template(Zone *zone, ...)
+{
+    va_list args;
+    va_start(args, zone);
+    String *result = vstr_template(zone, args);
     va_end(args);
 
-    return array_empty_join(zone, results);
+    return result;
 }
