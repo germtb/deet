@@ -47,13 +47,14 @@ void string_match_ignore_whitespace(const char *given, const char *expected)
     }
 }
 
-void test_1()
+void test(char *given, char *expected)
 {
-    char *s = c_print("fn main() {}\n", false);
-    string_match_ignore_whitespace(s, "void main() {}");
+    char *s = c_print(given, false);
+    string_match_ignore_whitespace(s, expected);
 }
 
 int main()
 {
-    test_1();
+    test("fn main() {}", "void main() {}");
+    test("fn main(): u8 {}", "uint8_t main() {}");
 }
