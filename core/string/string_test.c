@@ -40,6 +40,21 @@ void test_str_concat(Zone *zone)
     assert(strcmp(s3->data, "Hello World") == 0);
 }
 
+void test_str_template(Zone *zone)
+{
+    String *s1 = str_template(zone, "%s %s", "Hello", "world");
+    assert(s1->length == 11);
+    assert(strcmp(s1->data, "Hello world") == 0);
+
+    String *s2 = str_template(zone, "%s %d", "Hello", 123);
+    assert(s2->length == 9);
+    assert(strcmp(s2->data, "Hello 123") == 0);
+
+    String *s3 = str_template(zone, "%s %f", "Hello", 123.123);
+    assert(s3->length == 16);
+    assert(strcmp(s3->data, "Hello 123.123000") == 0);
+}
+
 int main()
 {
     Zone z = make_zone(1024);
@@ -47,5 +62,6 @@ int main()
     test_str_length(&z);
     test_str_copy(&z);
     test_str_concat(&z);
+    test_str_template(&z);
     free_zone(&z);
 }

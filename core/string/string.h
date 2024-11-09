@@ -18,5 +18,6 @@ bool str_equal_cstr(String *s, const char *t);
 void str_fill(String *s, char c);
 char *char_ptr_concat(char *str_1, char *str_2);
 String *str_concat(Zone *z, ...);
+String *str_template(Zone *zone, ...);
 
 #endif /* STRING_H_ */

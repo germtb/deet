@@ -133,3 +133,18 @@ String *array_empty_join(Zone *zone, Array *a)
 
     return result;
 }
+
+void print_array(Array *a)
+{
+    printf("[");
+    for (uint32_t i = 0; i < a->size; i++)
+    {
+        String *s = array_at(a, i);
+        printf("%s", s->data);
+        if (i < a->size - 1)
+        {
+            printf(", ");
+        }
+    }
+    printf("]\n");
+}

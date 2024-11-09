@@ -109,3 +109,62 @@ void str_fill(String *s, char c)
         s->data[i] = c;
     }
 }
+
+String *str_template(Zone *zone, ...)
+{
+    va_list args;
+    va_start(args, zone);
+
+    Array *results = array(zone, 100);
+    char *c = va_arg(args, char *);
+
+    while (*c != '\0')
+    {
+        if (*c == '%')
+        {
+            c++;
+            switch (*c)
+            {
+            case 's':
+            {
+                array_push(zone, results, str(zone, va_arg(args, char *)));
+                break;
+            }
+            case 'd':
+            {
+                int32_t i = va_arg(args, int32_t);
+                char *number = malloc(11 * sizeof(char));
+                sprintf(number, "%d", i);
+                array_push(zone, results, str(zone, number));
+                break;
+            }
+            case 'f':
+            {
+                double f = va_arg(args, double);
+                char *number = malloc(32 * sizeof(char));
+                sprintf(number, "%f", f);
+                array_push(zone, results, str(zone, number));
+                break;
+            }
+            default:
+            {
+                array_push(zone, results, str(zone, c));
+                break;
+            }
+            }
+        }
+        else
+        {
+            char *substr = zalloc(zone, 2 * sizeof(char));
+            substr[0] = *c;
+            substr[1] = '\0';
+            array_push(zone, results, str(zone, substr));
+        }
+
+        c++;
+    }
+
+    va_end(args);
+
+    return array_empty_join(zone, results);
+}
