@@ -1,7 +1,7 @@
-#include "tree_utils.h"
-#include "parser.h"
-#include "./core/hashmap/hashmap.h"
-#include "./core/string/string.h"
+#include "../ast/ast.h"
+#include "../parser/parser.h"
+#include "../hashmap/hashmap.h"
+#include "../string/string.h"
 
 #include <stdio.h>
 #include <stdlib.h>

@@ -1,5 +1,5 @@
 CC=gcc
-CORE_DEPENDENCIES= ./core/debug/debug.c ./core/zone/zone.c ./core/string/string.c ./core/array/array.c ./core/hashmap/hashmap.c lexer.c parser.c
+CORE_DEPENDENCIES= ./core/debug/debug.c ./core/zone/zone.c ./core/string/string.c ./core/array/array.c ./core/hashmap/hashmap.c ./core/lexer/lexer.c ./core/parser/parser.c
 
 test_zone:
 	$(CC) $(CORE_DEPENDENCIES) ./core/zone/zone_test.c && ./a.out
@@ -14,11 +14,11 @@ test_array:
 	@rm -f *.out
 
 test_parser:
-	$(CC) $(CORE_DEPENDENCIES) parser_test.c && ./a.out
+	$(CC) $(CORE_DEPENDENCIES) ./core/parser/parser_test.c && ./a.out
 	@rm -f *.out
 
 test_lexer:
-	$(CC) $(CORE_DEPENDENCIES) lexer_test.c && ./a.out
+	$(CC) $(CORE_DEPENDENCIES) ./core/lexer/lexer_test.c && ./a.out
 	@rm -f *.out
 
 test_hashmap:
@@ -26,7 +26,7 @@ test_hashmap:
 	@rm -f *.out
 
 c_print:
-	$(CC) $(CORE_DEPENDENCIES) tree_utils.c c_print.c && ./a.out
+	$(CC) $(CORE_DEPENDENCIES) ./ast/asc.c ./core/c_print/c_print.c && ./a.out
 	@rm -f *.out
 
 vscode:

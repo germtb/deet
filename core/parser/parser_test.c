@@ -1,6 +1,6 @@
-#include "parser.h"
-#include "lexer.h"
-#include "./core/debug/debug.h"
+#include "./parser.h"
+#include "../lexer/lexer.h"
+#include "../debug/debug.h"
 
 #include <stdio.h>
 #include <stdlib.h>

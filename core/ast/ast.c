@@ -1,4 +1,4 @@
-#include "parser.h"
+#include "../parser/parser.h"
 #include <stdlib.h>
 
 Node *last_child(Node *node)

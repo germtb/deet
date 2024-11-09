@@ -94,23 +94,23 @@ false
 ## String interpolation
 
 ```deet
-"Hello $hello!"
+"Hello ${hello}!"
 ```
 
 ## Structs declaration
 
 ```deet
 struct Person {
-    $name: String;
-    $age: u32;
+    name: String;
+    age: u32;
 };
 ```
 
 ## Structs expressions
 
 ```deet
-{ $foo: 1u32, $bar: 0u32 }
-Person { $name: "Chal", $age: 35 }
+{ foo: 1u32, bar: 0u32 }
+Person { name: "Chal", age: 35 }
 ```
 
 ## Arrays
@@ -122,21 +122,21 @@ Person { $name: "Chal", $age: 35 }
 ## Constant declaration
 
 ```deet
-const $foo: u32 = 0u32;
-const $foo: bool = true;
+const foo: u32 = 0u32;
+const foo: bool = true;
 ```
 
 ## Variable declaration
 
 ```deet
-var ~foo: u32 = 0;
+var foo: u32 = 0;
 ```
 
 ## Variable assignment
 
 ```deet
-~foo = 3;
-~foo = 5;
+foo = 3;
+foo = 5;
 ```
 
 ## Types
@@ -168,7 +168,7 @@ vector[][]
 
 type Bytes = u8[]
 
-struct Position { $x: u32, $y: u32 }
+struct Position { x: u32, y: u32 }
 
 union Weekdays = Monday | Tuesday | Wednesday | Thursday | Friday
 
@@ -179,17 +179,17 @@ union Maybe<T> = Some(T) | None
 ## Struct access
 
 ```deet
-$bar = $foo->$bar;
-~bar = $foo->~bar;
+bar = foo.bar;
+bar = foo.bar;
 ```
 
 ## If else
 
 ```deet
-if ($expression) {
+if (expression) {
     ...;
     ...;
-} else if ($expression) {
+} else if (expression) {
     ...;
     ...;
 } else {
@@ -201,26 +201,26 @@ if ($expression) {
 ## Pattern matching
 
 ```deet
-$result = match($literal)| true => 1 | false => 0;
+result = match(literal)| true => 1 | false => 0;
 
 
-$result = match($union_instance)
-    | Some(t) => Some($cb(t))
+result = match(union_instance)
+    | Some(t) => Some(cb(t))
     | None => None;
 ```
 
 ## Function expression
 
 ```deet
-($arg1: u32, $arg2: u32) => $arg1 + $arg2
+(arg1: u32, arg2: u32) => arg1 + arg2
 
-($arg1: u32, $arg2: u32): u32 =>  {
-    return $arg1 + $arg2
+(arg1: u32, arg2: u32): u32 =>  {
+    return arg1 + arg2
 }
 
-($arg1: u32, $arg2: u32) => {
-    $bar: str = 123
-    return $bar + $arg1 + $arg2
+(arg1: u32, arg2: u32) => {
+    bar: str = 123
+    return bar + arg1 + arg2
 }
 ```
 
@@ -242,17 +242,19 @@ fn other_function(): u8 {
 
 ```deet
 
-effect @alloc = <S>(struct: TypeOf<S>) => S;
+effect @malloc = (struct: NameOfStruct) => StructPointer;
 
-fn make_person(): @alloc {
-    const person = @alloc Person {};
+fn make_person(): @malloc {
+    const person = Person {
+        name: "Chal",
+        age: 35,
+    };
 }
 
-fn main() @alloc @free  {
-    const $person = make_person()
-        @alloc alloc;
-
-    @free $person;
+fn main()  {
+    const person = malloc(Person { name: "Chal", age: 35 });
+    log(person);
+    free(person);
 }
 
 effect @raise<T> = (error: String) => T;
@@ -317,18 +319,18 @@ fn main() {
 
 ## Call expression
 
-$fn = ($x: u8, $y: u8): u8 => $x + $y
+fn = (x: u8, y: u8): u8 => x + y
 
 <!-- fn = (x: u8, y: u8): u8 => x + y -->
 <!-- fn = (x, y) => x + y -->
 
-$result = $fn($x: 3, $y: 7)
-$result = $fn(3, 7)
+result = fn(x: 3, y: 7)
+result = fn(3, 7)
 
 ## Loops
 
 ```deet
-for (~i = 0; ~i < 10; ~i++) {
+for (i = 0; i < 10; i++) {
 
 }
 
@@ -337,7 +339,7 @@ while (expression) {
     break;
 }
 
-for $pattern of $expression {
+for pattern of expression {
     // Do something
 }
 ```
@@ -352,38 +354,38 @@ for $pattern of $expression {
 
 Becomes:
 
-var ~temp;
-~temp = 10;
-~temp = double(~temp);
-~temp = (x => "Hello x")(~temp);
-~temp = println(~temp);
+var temp;
+temp = 10;
+temp = double(temp);
+temp = (x => "Hello ${x}")(temp);
+temp = println(temp);
 ```
 
 ## Namespaces
 
 ```deet
 namespace #numbers {
-    fn $max($x: u8, $y: u8): u8 {
-        if ($x > $y) {
-            return $x;
+    fn max(x: u8, y: u8): u8 {
+        if (x > y) {
+            return x;
         } else {
-            return $y;
+            return y;
         }
     }
 }
 
-#numbers->$max(10, 12);
+#numbers.max(10, 12);
 
 using #numbers {
-    $max(10, 12);
+    max(10, 12);
 };
 ```
 
-# NO Destructuring
+## NO Destructuring
 
 ```deet
-{ $foo, ... } = $struct
-[_, $foo, ...] = $array
-Some $foo
-Type { $foo }
+{ foo, ... } = struct
+[_, foo, ...] = array
+Some foo
+Type { foo }
 ```

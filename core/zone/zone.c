@@ -1,4 +1,4 @@
-#include "zone.h"
+#include "./zone.h"
 
 #include <stdio.h>
 #include <stdlib.h>

@@ -1,5 +1,5 @@
-#include "parser.h"
-#include "./core/debug/debug.h"
+#include "../parser/parser.h"
+#include "../debug/debug.h"
 
 #include <stdio.h>
 #include <stdlib.h>
