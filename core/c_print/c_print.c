@@ -1,62 +1,22 @@
+#include "c_print.h"
+#include "ctype.h"
 #include "../ast/ast.h"
 #include "../parser/parser.h"
 #include "../hashmap/hashmap.h"
 #include "../string/string.h"
+#include "../array/array.h"
 
 #include <stdarg.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
-typedef struct CType
-{
-    char *name;
-    char *primitive_name;
-    int bytesize;
-    bool is_primitive;
-} CType;
-
-CType make_primitive_ctype(char *name, int bytesize)
-{
-    return (CType){.name = name, .bytesize = bytesize, .is_primitive = true};
-}
-
-CType make_pointer_ctype(char *name, char *primitive_name)
-{
-    return (CType){.name = name, .primitive_name = primitive_name, .bytesize = 1, .is_primitive = false};
-}
-
-CType make_ctype_not_found()
-{
-    return make_pointer_ctype("NOT_FOUND *", "NOT_FOUND");
-}
-
-typedef enum ParentType
-{
-    InStructDeclaration,
-    InGlobalScope,
-    InVarDeclaration,
-} ParentType;
-
-typedef struct Context
-{
-    struct Context *parent;
-    struct Context *child;
-    struct Hashmap *types;
-    struct Hashmap *variables;
-    int depth;
-    char *parent_name;
-    ParentType parent_type;
-    Zone *zone;
-    // Array *output;
-} Context;
-
-void print(Context *context, const char *format, ...)
+void print(Context *context, ...)
 {
     va_list args;
-    va_start(args, format);
-    // context->output = vstr_template(context->zone, args);
-    vprintf(format, args);
+    va_start(args, context);
+    // vprintf(format, args);
+    array_push(context->zone, context->output, vstr_template(context->zone, args));
     va_end(args);
 }
 
@@ -77,7 +37,7 @@ Context make_context(Zone *zone)
         .variables = variables,
         .depth = 0,
         .parent_type = InGlobalScope,
-        .output = str(zone, "")};
+        .output = array(zone, 100)};
 }
 
 char *sanetise_identifier(char *identifier)
@@ -140,115 +100,115 @@ void print_node(Context *context, Node *node, int depth)
 
     switch (node->type)
     {
-    case StringInterpolation:
+    case NStringInterpolation:
         print(context, "TODO");
         print_children(context, node, depth);
         break;
-    case PostIncrement:
+    case NPostIncrement:
     {
         print_children(context, node, depth);
         print(context, "++");
         break;
     }
-    case PostDecrement:
+    case NPostDecrement:
     {
         print_children(context, node, depth);
         print(context, "--");
         break;
     }
-    case PreIncrement:
+    case NPreIncrement:
     {
         print(context, "--");
         print_children(context, node, depth);
         break;
     }
-    case PreDecrement:
+    case NPreDecrement:
     {
         print(context, "--");
         print_children(context, node, depth);
         break;
     }
-    case Comment:
+    case NComment:
     {
         print(context, "\n%s%s", indentation, node->str_value);
         break;
     }
-    case Number:
+    case NNumber:
     {
         print(context, "%s", node->str_value);
         break;
     }
-    case Decimal:
+    case NDecimal:
     {
         print(context, "%s", node->str_value);
         break;
     }
-    case Int8:
+    case NInt8:
     {
         print(context, "%s", node->str_value);
         break;
     }
-    case Int16:
+    case NInt16:
     {
         print(context, "%s", node->str_value);
         break;
     }
-    case Int32:
+    case NInt32:
     {
         print(context, "%s", node->str_value);
         break;
     }
-    case Int64:
+    case NInt64:
     {
         print(context, "%s", node->str_value);
         break;
     }
-    case Uint8:
+    case NUint8:
     {
         print(context, "%s", node->str_value);
         break;
     }
-    case Uint16:
+    case NUint16:
     {
         print(context, "%s", node->str_value);
         break;
     }
-    case Uint32:
+    case NUint32:
     {
         print(context, "%s", node->str_value);
         break;
     }
-    case Uint64:
+    case NUint64:
     {
         print(context, "%s", node->str_value);
         break;
     }
-    case Float32:
+    case NFloat32:
     {
         print(context, "%s", node->str_value);
         break;
     }
-    case Float64:
+    case NFloat64:
     {
         print(context, "%s", node->str_value);
         break;
     }
-    case StringLiteral:
+    case NStringLiteral:
     {
         print(context, "%s", node->str_value);
         break;
     }
-    case True:
+    case NTrue:
     {
         print(context, "true");
         break;
     }
-    case False:
+    case NFalse:
     {
         print(context, "false");
         break;
     }
-    case Struct:
+    case NStruct:
     {
         if (context->parent_type == InStructDeclaration)
         {
@@ -262,12 +222,12 @@ void print_node(Context *context, Node *node, int depth)
         }
         else
         {
-            print(context, "Unexpected case in Struct");
+            print(context, "Unexpected case Nin Struct");
         }
 
         break;
     }
-    case StructProperty:
+    case NStructProperty:
     {
         if (context->parent_type == InStructDeclaration)
         {
@@ -286,63 +246,63 @@ void print_node(Context *context, Node *node, int depth)
         }
         else
         {
-            print(context, "Unexpected case in StructProperty");
+            print(context, "Unexpected case Nin StructProperty");
         }
 
         break;
     }
-    case Access:
+    case NAccess:
     {
         print_node(context, n_child(node, 0), depth);
         print(context, "->");
         print_node(context, n_child(node, 1), depth);
         break;
     }
-    case Array:
+    case NArray:
     {
         break;
     }
-    case If:
+    case NIf:
     {
         break;
     }
-    case Else:
+    case NElse:
     {
         break;
     }
-    case ElseIf:
+    case NElseIf:
     {
         break;
     }
-    case Match:
+    case NMatch:
     {
         break;
     }
-    case MatchCase:
+    case NMatchCase:
     {
         break;
     }
-    case DefaultCase:
+    case NDefaultCase:
     {
         break;
     }
-    case Pattern:
+    case NPattern:
     {
         break;
     }
-    case Return:
+    case NReturn:
     {
         print(context, "\n%sreturn ", indentation);
         print_children(context, node, depth);
         print(context, ";");
         break;
     }
-    case Identifier:
+    case NIdentifier:
     {
         print(context, "%s", sanetise_identifier(node->str_value));
         break;
     }
-    case TypeIdentifier:
+    case NTypeIdentifier:
     {
         CType *type = hashmap_get(context->types, node->str_value);
 
@@ -357,12 +317,12 @@ void print_node(Context *context, Node *node, int depth)
             break;
         }
     }
-    case EffectIdentifier:
+    case NEffectIdentifier:
     {
         print(context, "%s", sanetise_identifier(node->str_value));
         break;
     }
-    case FunctionDeclaration:
+    case NFunctionDeclaration:
     {
         print(context, "\n");
         CType return_type = infer_ctype(context, n_child(node, 2));
@@ -374,7 +334,7 @@ void print_node(Context *context, Node *node, int depth)
 
         break;
     }
-    case Function:
+    case NFunction:
     {
         print(context, "fn");
         print(context, "(");
@@ -389,18 +349,18 @@ void print_node(Context *context, Node *node, int depth)
 
         break;
     }
-    case FunctionArgs:
+    case NFunctionArgs:
     {
         print(context, "(");
         print_children(context, node, depth);
         print(context, ")");
         break;
     }
-    case FunctionArg:
+    case NFunctionArg:
     {
         break;
     }
-    case Call:
+    case NCall:
     {
         print_node(context, n_child(node, 0), depth);
         print(context, "(");
@@ -408,102 +368,102 @@ void print_node(Context *context, Node *node, int depth)
         print(context, ")");
         break;
     }
-    case CallArgs:
+    case NCallArgs:
     {
         break;
     }
-    case CallArg:
+    case NCallArg:
     {
         break;
     }
-    case Add:
+    case NAdd:
     {
         print_op(context, node, depth, "+");
         break;
     }
-    case Sub:
+    case NSub:
     {
         print_op(context, node, depth, "-");
         break;
     }
-    case Mul:
+    case NMul:
     {
         print_op(context, node, depth, "*");
         break;
     }
-    case Div:
+    case NDiv:
     {
         print_op(context, node, depth, "/");
         break;
     }
-    case Ge:
+    case NGe:
     {
         print_op(context, node, depth, ">=");
         break;
     }
-    case Gt:
+    case NGt:
     {
         print_op(context, node, depth, ">");
         break;
     }
-    case Se:
+    case NSe:
     {
         print_op(context, node, depth, "<=");
         break;
     }
-    case St:
+    case NSt:
     {
         print_op(context, node, depth, "<");
         break;
     }
-    case Eq:
+    case NEq:
     {
         print_op(context, node, depth, "==");
         break;
     }
-    case Neq:
+    case NNeq:
     {
         print_op(context, node, depth, "!=");
         break;
     }
-    case And:
+    case NAnd:
     {
         print_op(context, node, depth, "&&");
         break;
     }
-    case Or:
+    case NOr:
     {
         print_op(context, node, depth, "||");
         break;
     }
-    case Xor:
+    case NXor:
     {
         print_op(context, node, depth, "^");
         break;
     }
-    case BitAnd:
+    case NBitAnd:
     {
         print_op(context, node, depth, "&");
         break;
     }
-    case BitOr:
+    case NBitOr:
     {
         print_op(context, node, depth, "|");
         break;
     }
-    case Not:
+    case NNot:
     {
         print(context, "!");
         print_children(context, node, depth);
         break;
     }
-    case Negative:
+    case NNegative:
     {
         print(context, "-");
         print_children(context, node, depth);
         break;
     }
-    case Reassignment:
+    case NReassignment:
     {
         print(context, "\n%s", indentation);
         print_node(context, n_child(node, 0), depth);
@@ -511,8 +471,8 @@ void print_node(Context *context, Node *node, int depth)
         print_node(context, n_child(node, 1), depth);
         break;
     }
-    case VarDeclaration:
-    case ConstDeclaration:
+    case NVarDeclaration:
+    case NConstDeclaration:
     {
         CType ctype;
 
@@ -552,29 +512,29 @@ void print_node(Context *context, Node *node, int depth)
 
         break;
     }
-    case TypeDeclaration:
+    case NTypeDeclaration:
     {
         // Store the type in context
         break;
     }
-    case Statement:
+    case NStatement:
     {
         print(context, "\n%s", indentation);
         print_children(context, node, depth);
         print(context, ";");
         break;
     }
-    case Program:
+    case NProgram:
     {
         print_children(context, node, depth);
         break;
     }
-    case End:
+    case NEnd:
     {
         print(context, "\n");
         break;
     }
-    case StructDeclaration:
+    case NStructDeclaration:
     {
         char *name = n_child(node, 0)->str_value;
         ParentType outer_type = context->parent_type;
@@ -599,38 +559,38 @@ void print_node(Context *context, Node *node, int depth)
 
         break;
     }
-    case Block:
+    case NBlock:
     {
         print(context, " {\n");
         print_children(context, node, depth + 1);
         print(context, "\n%s}", indentation);
     }
-    case Pipe:
+    case NPipe:
     {
         // TODO
         break;
     }
-    case TypeParameters:
+    case NTypeParameters:
     {
         // TODO
         break;
     }
-    case For:
+    case NFor:
     {
         // TODO
         break;
     }
-    case While:
+    case NWhile:
     {
         // TODO
         break;
     }
-    case Continue:
+    case NContinue:
     {
         // TODO
         break;
     }
-    case Break:
+    case NBreak:
     {
         // TODO
         break;
@@ -638,30 +598,9 @@ void print_node(Context *context, Node *node, int depth)
     }
 }
 
-char *print_file(const char *filename)
+char *c_print(char *src)
 {
-    FILE *fp;
-    char *src = NULL;
-
-    int line = 0;
-    int col = 0;
-
-    fp = fopen(filename, "rw");
-
-    if (fp == NULL)
-    {
-        printf("Could not open file %s\n", filename);
-        exit(EXIT_FAILURE);
-    }
-
-    fseek(fp, 0, SEEK_END);
-    long size = ftell(fp);
-    fseek(fp, 0, SEEK_SET);
-
-    src = malloc(size * sizeof(char));
-    fread(src, 1, size, fp);
-
-    struct Node *node = parse(src);
+    Node *node = parse(src);
 
     // 10Mb of memory
     Zone zone = make_zone(1024 * 10);
@@ -699,6 +638,42 @@ char *print_file(const char *filename)
     print_node(&global_context, node, 0);
     print(&global_context, "\n");
 
+    String *str_output = array_empty_join(&zone, global_context.output);
+    char *output = malloc((str_output->length + 1) * (sizeof(char)));
+    memcpy(output, str_output->data, str_output->length);
+    output[str_output->length] = '\0';
+
+    free_zone(&zone);
+    return output;
+}
+
+char *print_file(const char *filename)
+{
+    FILE *fp;
+    char *src = NULL;
+
+    int line = 0;
+    int col = 0;
+
+    fp = fopen(filename, "rw");
+
+    if (fp == NULL)
+    {
+        printf("Could not open file %s\n", filename);
+        exit(EXIT_FAILURE);
+    }
+
+    fseek(fp, 0, SEEK_END);
+    long size = ftell(fp);
+    fseek(fp, 0, SEEK_SET);
+
+    src = malloc(size * sizeof(char));
+    fread(src, 1, size, fp);
+
+    char *output = c_print(src);
+
+    printf("%s", output);
+
     fclose(fp);
 
     return 0;
@@ -707,218 +682,4 @@ char *print_file(const char *filename)
 int main()
 {
     print_file("./core/c_print/example_1.dt");
-}
-
-CType infer_ctype(Context *context, Node *node)
-{
-    switch (node->type)
-    {
-    case FunctionDeclaration:
-        return make_primitive_ctype(NULL, 1);
-    case Number:
-        return make_primitive_ctype("int32_t", 4);
-    case Decimal:
-        return make_primitive_ctype("float64_t", 8);
-    case Int8:
-        return make_primitive_ctype("int8_t", 1);
-    case Int16:
-        return make_primitive_ctype("int16_t", 2);
-    case Int32:
-        return make_primitive_ctype("int32_t", 4);
-    case Int64:
-        return make_primitive_ctype("int64_t", 8);
-    case Uint8:
-        return make_primitive_ctype("uint8_t", 1);
-    case Uint16:
-        return make_primitive_ctype("uint16_t", 2);
-    case Uint32:
-        return make_primitive_ctype("uint32_t", 4);
-    case Uint64:
-        return make_primitive_ctype("uint64_t", 8);
-    case Float32:
-        return make_primitive_ctype("float32_t", 4);
-    case Float64:
-        return make_primitive_ctype("float64_t", 8);
-    case StringLiteral:
-        return make_primitive_ctype("char*", 8);
-    case True:
-        return make_primitive_ctype("bool", 1);
-    case False:
-        return make_primitive_ctype("bool", 1);
-    case StructProperty:
-        return make_primitive_ctype("TODO: StructProperty", 1);
-    case Access:
-        return make_primitive_ctype("TODO: Access", 1);
-    case Array:
-        return make_primitive_ctype("TODO: Array", 1);
-    case If:
-        return make_primitive_ctype("TODO: If", 1);
-    case Else:
-        return make_primitive_ctype("TODO: Else", 1);
-    case ElseIf:
-        return make_primitive_ctype("TODO: ElseIf", 1);
-    case Match:
-        return make_primitive_ctype("TODO: Match", 1);
-    case MatchCase:
-        return make_primitive_ctype("TODO: MatchCase", 1);
-    case DefaultCase:
-        return make_primitive_ctype("TODO: DefaultCase", 1);
-    case Pattern:
-        return make_primitive_ctype("TODO: Pattern", 1);
-    case Return:
-        return make_primitive_ctype("TODO: Return", 1);
-    case Identifier:
-        return make_primitive_ctype("TODO: Identifier", 1);
-    case Struct:
-    {
-        // if (node == NULL)
-        // {
-        //     printf("YES\n");
-        // }
-        // else
-        // {
-        //     printf("NO\n");
-        // }
-
-        // print_node_ast(node, 0);
-
-        // printf("Node type: %s", get_node_name(node->type));
-        // printf("Node type: %s", get_node_name(node->type));
-
-        // CType *type = hashmap_get(&context->types, node->str_value);
-
-        // if (type == NULL)
-        // {
-        //     return (CType){.name = "Type not found", .bytesize = 1};
-        // }
-
-        // return *type;
-
-        return make_ctype_not_found();
-    }
-    case TypeIdentifier:
-    {
-        CType *type = hashmap_get(context->types, node->str_value);
-
-        if (type == NULL)
-        {
-            return make_ctype_not_found();
-        }
-
-        return *type;
-    }
-    case EffectIdentifier:
-        return make_primitive_ctype("TODO: EffectIdentifier", 1);
-    case Function:
-        return make_primitive_ctype("TODO: Function", 1);
-    case FunctionArgs:
-        return make_primitive_ctype("TODO: FunctionArgs", 1);
-    case FunctionArg:
-        return make_primitive_ctype("TODO: FunctionArg", 1);
-    case Call:
-        return make_primitive_ctype("TODO: Call", 1);
-    case CallArgs:
-        return make_primitive_ctype("TODO: CallArgs", 1);
-    case CallArg:
-        return make_primitive_ctype("TODO: CallArg", 1);
-    case Add:
-        return make_primitive_ctype("TODO: Add", 1);
-    case Sub:
-        return make_primitive_ctype("TODO: Sub", 1);
-    case Mul:
-        return make_primitive_ctype("TODO: Mul", 1);
-    case Div:
-        return make_primitive_ctype("TODO: Div", 1);
-    case Ge:
-        return make_primitive_ctype("TODO: Ge", 1);
-    case Gt:
-        return make_primitive_ctype("TODO: Gt", 1);
-    case Se:
-        return make_primitive_ctype("TODO: Se", 1);
-    case St:
-        return make_primitive_ctype("TODO: St", 1);
-    case Eq:
-        return make_primitive_ctype("TODO: Eq", 1);
-    case Neq:
-        return make_primitive_ctype("TODO: Neq", 1);
-    case And:
-        return make_primitive_ctype("TODO: And", 1);
-    case Or:
-        return make_primitive_ctype("TODO: Or", 1);
-    case Xor:
-        return make_primitive_ctype("TODO: Xor", 1);
-    case BitAnd:
-        return make_primitive_ctype("TODO: BitAnd", 1);
-    case BitOr:
-        return make_primitive_ctype("TODO: BitOr", 1);
-    case Not:
-        return make_primitive_ctype("TODO: Not", 1);
-    case Negative:
-        return make_primitive_ctype("TODO: Negative", 1);
-    case PostIncrement:
-        return make_primitive_ctype("TODO: PostIncrement", 1);
-    case PostDecrement:
-        return make_primitive_ctype("TODO: PostDecrement", 1);
-    case PreIncrement:
-        return make_primitive_ctype("TODO: PreIncrement", 1);
-    case PreDecrement:
-        return make_primitive_ctype("TODO: PreDecrement", 1);
-    case Reassignment:
-        return make_primitive_ctype("TODO: Reassignment", 1);
-    case ConstDeclaration:
-        return make_primitive_ctype("TODO: ConstDeclaration", 1);
-    case VarDeclaration:
-        return make_primitive_ctype("TODO: VarDeclaration", 1);
-    case TypeDeclaration:
-        return make_primitive_ctype("TODO: TypeDeclaration", 1);
-    case Statement:
-        return make_primitive_ctype("TODO: Statement", 1);
-    case Comment:
-        return make_primitive_ctype("TODO: Comment", 1);
-    case Program:
-        return make_primitive_ctype("TODO: Program", 1);
-    case End:
-        return make_primitive_ctype("TODO: End", 1);
-    case StructDeclaration:
-        return make_primitive_ctype("TODO: StructDeclaration", 1);
-    case StringInterpolation:
-        return make_pointer_ctype("char*", "char*");
-    case Block:
-    {
-        // TODO
-        break;
-    }
-    case Pipe:
-    {
-        // TODO
-        break;
-    }
-    case TypeParameters:
-    {
-        // TODO
-        break;
-    }
-    case For:
-    {
-        // TODO
-        break;
-    }
-    case While:
-    {
-        // TODO
-        break;
-    }
-    case Continue:
-    {
-        // TODO
-        break;
-    }
-    case Break:
-    {
-        // TODO
-        break;
-    }
-    }
-
-    return make_pointer_ctype("TYPE NOT FOUND *", "TYPE NOT FOUND");
 }

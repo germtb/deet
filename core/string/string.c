@@ -5,6 +5,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdbool.h>
+#include <assert.h>
 
 String *str(Zone *z, const char *data)
 {
@@ -112,7 +113,8 @@ void str_fill(String *s, char c)
 
 String *vstr_template(Zone *zone, va_list args)
 {
-    Array *results = array(zone, 100);
+    assert(args != NULL);
+    Array *results = array(zone, 8);
     char *c = va_arg(args, char *);
 
     while (*c != '\0')

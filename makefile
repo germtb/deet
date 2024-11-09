@@ -1,5 +1,5 @@
 CC=gcc
-CORE_DEPENDENCIES= ./core/debug/debug.c ./core/zone/zone.c ./core/string/string.c ./core/array/array.c ./core/hashmap/hashmap.c ./core/lexer/lexer.c ./core/parser/parser.c
+CORE_DEPENDENCIES= ./core/debug/debug.c ./core/zone/zone.c ./core/string/string.c ./core/array/array.c ./core/hashmap/hashmap.c ./core/lexer/lexer.c ./core/parser/parser.c ./core/c_print/ctype.c
 
 test_zone:
 	$(CC) $(CORE_DEPENDENCIES) ./core/zone/zone_test.c && ./a.out
