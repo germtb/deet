@@ -26,7 +26,7 @@ test_hashmap:
 	@rm -f *.out
 
 c_print:
-	$(CC) $(CORE_DEPENDENCIES) ./ast/asc.c ./core/c_print/c_print.c && ./a.out
+	$(CC) $(CORE_DEPENDENCIES) ./core/ast/ast.c ./core/c_print/c_print.c && ./a.out
 	@rm -f *.out
 
 vscode:

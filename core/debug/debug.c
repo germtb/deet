@@ -44,7 +44,7 @@ void print_node_ast(Node *node, int depth)
     {
         printf("(%s)\n", node->str_value);
     }
-    else if (node->type == StringLiteral || node->type == Identifier || node->type == EffectIdentifier)
+    else if (node->type == StringLiteral || node->type == TypeIdentifier || node->type == Identifier || node->type == EffectIdentifier)
     {
         printf("(%s)\n", node->str_value);
     }

@@ -72,17 +72,9 @@ char *sanetise_identifier(char *identifier)
 {
     char c = identifier[0];
 
-    if (c == '$')
-    {
-        identifier[0] = 'c';
-    }
-    else if (c == '@')
+    if (c == '@')
     {
         identifier[0] = 'z';
-    }
-    else if (c == '~')
-    {
-        identifier[0] = 'v';
     }
 
     return identifier;
@@ -294,10 +286,6 @@ void print_node(Context *context, Node *node, int depth, int (*print)(const char
         print_node(context, n_child(node, 1), depth, print);
         break;
     }
-    case Tuple:
-    {
-        break;
-    }
     case Array:
     {
         break;
@@ -330,13 +318,6 @@ void print_node(Context *context, Node *node, int depth, int (*print)(const char
     {
         break;
     }
-    case ZoneDeclaration:
-    {
-        print(" {");
-        print_children_from_n(context, node, depth + 1, print, 1);
-        print("\n%s}", indentation);
-        break;
-    }
     case Return:
     {
         print("\n%sreturn ", indentation);
@@ -344,12 +325,7 @@ void print_node(Context *context, Node *node, int depth, int (*print)(const char
         print(";");
         break;
     }
-    case ConstIdentifier:
-    {
-        print("%s", sanetise_identifier(node->str_value));
-        break;
-    }
-    case VarIdentifier:
+    case Identifier:
     {
         print("%s", sanetise_identifier(node->str_value));
         break;
@@ -395,16 +371,9 @@ void print_node(Context *context, Node *node, int depth, int (*print)(const char
 
         Node *last_node = last_child(node);
 
-        if (node->type == ZoneDeclaration)
-        {
-            print_node(context, last_node, depth, print);
-        }
-        else
-        {
-            print(" {\n");
-            print_node(context, last_node, depth + 1, print);
-            print("\n%s}", indentation);
-        }
+        print(" {\n");
+        print_node(context, last_node, depth + 1, print);
+        print("\n%s}", indentation);
 
         break;
     }
@@ -530,7 +499,8 @@ void print_node(Context *context, Node *node, int depth, int (*print)(const char
         print_node(context, n_child(node, 1), depth, print);
         break;
     }
-    case Declaration:
+    case VarDeclaration:
+    case ConstDeclaration:
     {
         CType ctype;
 
@@ -617,10 +587,44 @@ void print_node(Context *context, Node *node, int depth, int (*print)(const char
 
         break;
     }
+    case Block:
+    {
+        print(" {\n");
+        print_children(context, node, depth + 1, print);
+        print("\n%s}", indentation);
+    }
+    case Pipe:
+    {
+        // TODO
+        break;
+    }
+    case TypeParameters:
+    {
+        // TODO
+        break;
+    }
+    case For:
+    {
+        // TODO
+        break;
+    }
+    case While:
+    {
+        // TODO
+        break;
+    }
+    case Continue:
+    {
+        // TODO
+        break;
+    }
+    case Break:
+    {
+        // TODO
+        break;
+    }
     }
 }
-
-char *(*fn)(char *) = sanetise_identifier;
 
 char *print_file(const char *filename)
 {
@@ -634,6 +638,7 @@ char *print_file(const char *filename)
 
     if (fp == NULL)
     {
+        printf("Could not open file %s\n", filename);
         exit(EXIT_FAILURE);
     }
 
@@ -673,15 +678,14 @@ char *print_file(const char *filename)
 
         CType string = {.name = "char *", .bytesize = 1};
         hashmap_set(&zone, global_context.types, "string", &string);
+
+        CType void_type = {.name = "void", .bytesize = 0};
+        hashmap_set(&zone, global_context.types, "void", &void_type);
     }
 
     printf("#include \"stdlib.h\"\n");
     print_node(&global_context, node, 0, printf);
     printf("\n");
-
-    printf("int main() {\n");
-    printf("\tcmain();\n");
-    printf("}\n");
 
     fclose(fp);
 
@@ -690,7 +694,7 @@ char *print_file(const char *filename)
 
 int main()
 {
-    print_file("./examples/literals.dt");
+    print_file("./core/c_print/example_1.dt");
 }
 
 CType infer_ctype(Context *context, Node *node)
@@ -733,8 +737,6 @@ CType infer_ctype(Context *context, Node *node)
         return make_primitive_ctype("TODO: StructProperty", 1);
     case Access:
         return make_primitive_ctype("TODO: Access", 1);
-    case Tuple:
-        return make_primitive_ctype("TODO: Tuple", 1);
     case Array:
         return make_primitive_ctype("TODO: Array", 1);
     case If:
@@ -751,14 +753,10 @@ CType infer_ctype(Context *context, Node *node)
         return make_primitive_ctype("TODO: DefaultCase", 1);
     case Pattern:
         return make_primitive_ctype("TODO: Pattern", 1);
-    case ZoneDeclaration:
-        return make_primitive_ctype("TODO: Zone", 1);
     case Return:
         return make_primitive_ctype("TODO: Return", 1);
-    case ConstIdentifier:
-        return make_primitive_ctype("TODO: ConstIdentifier", 1);
-    case VarIdentifier:
-        return make_primitive_ctype("TODO: VarIdentifier", 1);
+    case Identifier:
+        return make_primitive_ctype("TODO: Identifier", 1);
     case Struct:
     {
         // if (node == NULL)
@@ -855,8 +853,10 @@ CType infer_ctype(Context *context, Node *node)
         return make_primitive_ctype("TODO: PreDecrement", 1);
     case Reassignment:
         return make_primitive_ctype("TODO: Reassignment", 1);
-    case Declaration:
-        return make_primitive_ctype("TODO: Declaration", 1);
+    case ConstDeclaration:
+        return make_primitive_ctype("TODO: ConstDeclaration", 1);
+    case VarDeclaration:
+        return make_primitive_ctype("TODO: VarDeclaration", 1);
     case TypeDeclaration:
         return make_primitive_ctype("TODO: TypeDeclaration", 1);
     case Statement:
@@ -871,6 +871,41 @@ CType infer_ctype(Context *context, Node *node)
         return make_primitive_ctype("TODO: StructDeclaration", 1);
     case StringInterpolation:
         return make_pointer_ctype("char*", "char*");
+    case Block:
+    {
+        // TODO
+        break;
+    }
+    case Pipe:
+    {
+        // TODO
+        break;
+    }
+    case TypeParameters:
+    {
+        // TODO
+        break;
+    }
+    case For:
+    {
+        // TODO
+        break;
+    }
+    case While:
+    {
+        // TODO
+        break;
+    }
+    case Continue:
+    {
+        // TODO
+        break;
+    }
+    case Break:
+    {
+        // TODO
+        break;
+    }
     }
 
     return make_pointer_ctype("TYPE NOT FOUND *", "TYPE NOT FOUND");

@@ -126,7 +126,7 @@ int main()
         parse_and_expect_types("+1;", expected);
     }
     {
-        enum NodeType expected[] = {Program, Declaration, Identifier, Number, End};
+        enum NodeType expected[] = {Program, ConstDeclaration, Identifier, Number, End};
         parse_and_expect_types("const foo = +1;", expected);
     }
     {
@@ -154,15 +154,15 @@ int main()
         parse_and_expect_types("foo().bar;", expected);
     }
     {
-        enum NodeType expected[] = {Program, Declaration, Identifier, Number, End};
+        enum NodeType expected[] = {Program, ConstDeclaration, Identifier, Number, End};
         parse_and_expect_types("const foo = 2;", expected);
     }
     {
-        enum NodeType expected[] = {Program, Declaration, Identifier, StringLiteral, End};
+        enum NodeType expected[] = {Program, ConstDeclaration, Identifier, StringLiteral, End};
         parse_and_expect_types("const foo = \"Hello\";", expected);
     }
     {
-        enum NodeType expected[] = {Program, Declaration, Identifier, True, End};
+        enum NodeType expected[] = {Program, VarDeclaration, Identifier, True, End};
         parse_and_expect_types("var foo = true;", expected);
     }
     {
@@ -198,23 +198,23 @@ int main()
         parse_and_expect_types("type foo = { bar: { bar: u8 } };", expected);
     }
     {
-        enum NodeType expected[] = {Program, Declaration, Identifier, Struct, StructProperty, Identifier, Int32, End};
+        enum NodeType expected[] = {Program, ConstDeclaration, Identifier, Struct, StructProperty, Identifier, Int32, End};
         parse_and_expect_types("const foo = { bar: 1i32 };", expected);
     }
     {
-        enum NodeType expected[] = {Program, Declaration, Identifier, Struct, StructProperty, Identifier, Uint16, End};
+        enum NodeType expected[] = {Program, ConstDeclaration, Identifier, Struct, StructProperty, Identifier, Uint16, End};
         parse_and_expect_types("const foo = { bar: 3u16 };", expected);
     }
     {
-        enum NodeType expected[] = {Program, Declaration, Identifier, Struct, StructProperty, Identifier, Decimal, StructProperty, Identifier, Decimal, End};
+        enum NodeType expected[] = {Program, ConstDeclaration, Identifier, Struct, StructProperty, Identifier, Decimal, StructProperty, Identifier, Decimal, End};
         parse_and_expect_types("const foo = { bar: 1.0, goo: 2.0 };", expected);
     }
     {
-        enum NodeType expected[] = {Program, Declaration, Identifier, Struct, StructProperty, Identifier, Struct, End};
+        enum NodeType expected[] = {Program, ConstDeclaration, Identifier, Struct, StructProperty, Identifier, Struct, End};
         parse_and_expect_types("const foo = { bar: {} };", expected);
     }
     {
-        enum NodeType expected[] = {Program, Declaration, Identifier, Struct, StructProperty, Identifier, Struct, StructProperty, Identifier, True, End};
+        enum NodeType expected[] = {Program, ConstDeclaration, Identifier, Struct, StructProperty, Identifier, Struct, StructProperty, Identifier, True, End};
         parse_and_expect_types("const foo = { bar: { bar: true } };", expected);
     }
     {
@@ -230,51 +230,51 @@ int main()
         parse_and_expect_types("struct S { x: u8 };", expected);
     }
     {
-        enum NodeType expected[] = {Program, Declaration, Identifier, TypeIdentifier, Number, End};
+        enum NodeType expected[] = {Program, ConstDeclaration, Identifier, TypeIdentifier, Number, End};
         parse_and_expect_types("const foo: u8 = 10;", expected);
     }
     {
-        enum NodeType expected[] = {Program, Declaration, Identifier, Function, FunctionArgs, Number, End};
+        enum NodeType expected[] = {Program, ConstDeclaration, Identifier, Function, FunctionArgs, Number, End};
         parse_and_expect_types("const foo = fn () => 10;", expected);
     }
     {
-        enum NodeType expected[] = {Program, Statement, Number, Declaration, Identifier, Function, FunctionArgs, Number, End};
+        enum NodeType expected[] = {Program, Statement, Number, ConstDeclaration, Identifier, Function, FunctionArgs, Number, End};
         parse_and_expect_types("10; const foo = fn () => 10;", expected);
     }
     {
-        enum NodeType expected[] = {Program, Declaration, Identifier, Function, FunctionArgs, Identifier, End};
+        enum NodeType expected[] = {Program, ConstDeclaration, Identifier, Function, FunctionArgs, Identifier, End};
         parse_and_expect_types("const foo = fn () => x;", expected);
     }
     {
-        enum NodeType expected[] = {Program, Declaration, Identifier, Function, FunctionArgs, FunctionArg, Identifier, Identifier, End};
+        enum NodeType expected[] = {Program, ConstDeclaration, Identifier, Function, FunctionArgs, FunctionArg, Identifier, Identifier, End};
         parse_and_expect_types("const foo = fn (x) => x;", expected);
     }
     {
-        enum NodeType expected[] = {Program, Declaration, Identifier, Function, FunctionArgs, FunctionArg, Identifier, TypeIdentifier, Identifier, End};
+        enum NodeType expected[] = {Program, ConstDeclaration, Identifier, Function, FunctionArgs, FunctionArg, Identifier, TypeIdentifier, Identifier, End};
         parse_and_expect_types("const foo = fn (x: u8) => x;", expected);
     }
     {
-        enum NodeType expected[] = {Program, Declaration, Identifier, Function, FunctionArgs, TypeIdentifier, Identifier, End};
+        enum NodeType expected[] = {Program, ConstDeclaration, Identifier, Function, FunctionArgs, TypeIdentifier, Identifier, End};
         parse_and_expect_types("const foo = fn (): u32 => x;", expected);
     }
     {
-        enum NodeType expected[] = {Program, Declaration, Identifier, Add, Number, Number, End};
+        enum NodeType expected[] = {Program, ConstDeclaration, Identifier, Add, Number, Number, End};
         parse_and_expect_types("const foo = 1 + 2;", expected);
     }
     {
-        enum NodeType expected[] = {Program, Declaration, Identifier, Add, Mul, Number, Number, Number, End};
+        enum NodeType expected[] = {Program, ConstDeclaration, Identifier, Add, Mul, Number, Number, Number, End};
         parse_and_expect_types("const foo = 1 * 2 + 3;", expected);
     }
     {
-        enum NodeType expected[] = {Program, Declaration, Identifier, Add, Number, Mul, Number, Number, End};
+        enum NodeType expected[] = {Program, ConstDeclaration, Identifier, Add, Number, Mul, Number, Number, End};
         parse_and_expect_types("const foo = 1 + 2 * 3;", expected);
     }
     {
-        enum NodeType expected[] = {Program, Declaration, Identifier, Eq, Not, True, False, End};
+        enum NodeType expected[] = {Program, ConstDeclaration, Identifier, Eq, Not, True, False, End};
         parse_and_expect_types("const foo = !true == false;", expected);
     }
     {
-        enum NodeType expected[] = {Program, Declaration, Identifier, Ge, Add, Number, Number, Number, End};
+        enum NodeType expected[] = {Program, ConstDeclaration, Identifier, Ge, Add, Number, Number, Number, End};
         parse_and_expect_types("const foo = 1 + 2 >= 0;", expected);
     }
     {
@@ -294,27 +294,27 @@ int main()
         parse_and_expect_types("if (true) { 1; } else { 1; }", expected);
     }
     {
-        enum NodeType expected[] = {Program, Declaration, Identifier, Call, Identifier, CallArgs, End};
+        enum NodeType expected[] = {Program, ConstDeclaration, Identifier, Call, Identifier, CallArgs, End};
         parse_and_expect_types("const foo = bar();", expected);
     }
     {
-        enum NodeType expected[] = {Program, Declaration, Identifier, Call, Identifier, CallArgs, CallArg, Number, End};
+        enum NodeType expected[] = {Program, ConstDeclaration, Identifier, Call, Identifier, CallArgs, CallArg, Number, End};
         parse_and_expect_types("const foo = bar(12);", expected);
     }
     {
-        enum NodeType expected[] = {Program, Declaration, Identifier, Call, Identifier, CallArgs, CallArg, Identifier, Number, End};
+        enum NodeType expected[] = {Program, ConstDeclaration, Identifier, Call, Identifier, CallArgs, CallArg, Identifier, Number, End};
         parse_and_expect_types("const foo = bar(x: 12);", expected);
     }
     {
-        enum NodeType expected[] = {Program, Declaration, Identifier, Access, Identifier, Identifier, End};
+        enum NodeType expected[] = {Program, ConstDeclaration, Identifier, Access, Identifier, Identifier, End};
         parse_and_expect_types("const foo = foo.bar;", expected);
     }
     {
-        enum NodeType expected[] = {Program, Declaration, Identifier, Access, Access, Identifier, Identifier, Identifier, End};
+        enum NodeType expected[] = {Program, ConstDeclaration, Identifier, Access, Access, Identifier, Identifier, Identifier, End};
         parse_and_expect_types("const foo = foo.bar.test;", expected);
     }
     {
-        enum NodeType expected[] = {Program, Declaration, Identifier, Function, FunctionArgs, TypeIdentifier, Block, Return, Number, End};
+        enum NodeType expected[] = {Program, ConstDeclaration, Identifier, Function, FunctionArgs, TypeIdentifier, Block, Return, Number, End};
         parse_and_expect_types("const foo = fn (): u8 => {\n\treturn 10;\n};", expected);
     }
     {
@@ -340,5 +340,49 @@ int main()
             "  return 10;\n"
             "}",
             expected);
+    }
+    {
+        enum NodeType expected[] = {Program, For, VarDeclaration, Identifier, Number, St, Identifier, Number, PostIncrement, Identifier, Block, End};
+        parse_and_expect_types("for (var i = 0; i < 10; i++) {}", expected);
+    }
+    {
+        enum NodeType expected[] = {Program, While, True, Block, End};
+        parse_and_expect_types("while (true) {} ", expected);
+    }
+    {
+        enum NodeType expected[] = {Program, While, True, Block, Break, End};
+        parse_and_expect_types("while (true) { break; } ", expected);
+    }
+    {
+        enum NodeType expected[] = {Program, While, True, Block, Continue, End};
+        parse_and_expect_types("while (true) { continue; } ", expected);
+    }
+    {
+        enum NodeType expected[] = {Program, Statement, Pipe, Number, Identifier, End};
+        parse_and_expect_types("10 |> double;", expected);
+    }
+    {
+        enum NodeType expected[] = {Program, Statement, Pipe, Number, Identifier, Identifier, End};
+        parse_and_expect_types("10 |> double |> triple;", expected);
+    }
+    {
+        enum NodeType expected[] = {Program, Statement, Pipe, Number, Function, FunctionArgs, FunctionArg, Identifier, Identifier, End};
+        parse_and_expect_types("10 |> fn x => x;", expected);
+    }
+    {
+        enum NodeType expected[] = {Program, Statement, Pipe, Number, Function, FunctionArgs, FunctionArg, Identifier, Pipe, Identifier, Identifier, End};
+        parse_and_expect_types("10 |> fn x => x |> double;", expected);
+    }
+    {
+        enum NodeType expected[] = {Program, ConstDeclaration, Identifier, TypeIdentifier, TypeParameters, TypeIdentifier, Array, End};
+        parse_and_expect_types("const x: Array<u8> = [];", expected);
+    }
+    {
+        enum NodeType expected[] = {Program, TypeDeclaration, TypeIdentifier, TypeParameters, TypeIdentifier, TypeIdentifier, End};
+        parse_and_expect_types("type Array<T> = T;", expected);
+    }
+    {
+        enum NodeType expected[] = {Program, FunctionDeclaration, Identifier, FunctionArgs, TypeIdentifier, Block, End};
+        parse_and_expect_types("fn main() {\n\n}\n", expected);
     }
 }

@@ -201,7 +201,7 @@ if (expression) {
 ## Pattern matching
 
 ```deet
-result = match(literal)| true => 1 | false => 0;
+result = match(literal) | true => 1 | false => 0;
 
 
 result = match(union_instance)
@@ -339,7 +339,7 @@ while (expression) {
     break;
 }
 
-for pattern of expression {
+for item of expression {
     // Do something
 }
 ```

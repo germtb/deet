@@ -63,6 +63,7 @@ enum NodeType
     Call,
     CallArgs,
     CallArg,
+    Pipe,
 
     // Binary
     Add,
@@ -91,7 +92,8 @@ enum NodeType
 
     // Statements
     Reassignment,
-    Declaration,
+    ConstDeclaration,
+    VarDeclaration,
     TypeDeclaration,
     Statement,
     Comment,
@@ -102,6 +104,13 @@ enum NodeType
 
     // Types
     StructDeclaration,
+    TypeParameters,
+
+    // Loops
+    For,
+    While,
+    Continue,
+    Break,
 };
 
 const char *get_node_name(enum NodeType type);

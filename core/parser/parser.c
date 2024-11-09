@@ -154,11 +154,18 @@ static Node *function_args(ParserAcc *acc)
 {
     Node *node = make_node(FunctionArgs);
 
-    consume(acc, TOpenParens);
-
-    while (!match(acc, TCloseParens))
+    if (match(acc, TOpenParens))
     {
-        append_child(node, function_arg(acc));
+        while (!match(acc, TCloseParens))
+        {
+            append_child(node, function_arg(acc));
+        }
+    }
+    else
+    {
+        Node *arg = make_node(FunctionArg);
+        append_child(arg, identifier(acc));
+        append_child(node, arg);
     }
 
     return node;
@@ -195,9 +202,19 @@ static Node *fn_declaration(ParserAcc *acc)
 
     append_child(node, identifier(acc));
     append_child(node, function_args(acc));
-    consume(acc, TColon);
-    append_child(node, type_expression(acc));
-    append_child(node, block(acc));
+
+    if (match(acc, TColon))
+    {
+        append_child(node, type_expression(acc));
+        append_child(node, block(acc));
+    }
+    else
+    {
+        Node *void_type = make_node(TypeIdentifier);
+        void_type->str_value = "void";
+        append_child(node, void_type);
+        append_child(node, block(acc));
+    }
 
     return node;
 }
@@ -484,9 +501,29 @@ static Node *call_args(ParserAcc *acc)
     return node;
 }
 
-static Node *call_expression(ParserAcc *acc)
+static Node *pipe_expression(ParserAcc *acc)
 {
     Node *left = primary(acc);
+
+    if (peek(acc, TPipe))
+    {
+        Node *node = make_node(Pipe);
+        append_child(node, left);
+
+        while (match(acc, TPipe))
+        {
+            append_child(node, primary(acc));
+        }
+
+        return node;
+    }
+
+    return left;
+}
+
+static Node *call_expression(ParserAcc *acc)
+{
+    Node *left = pipe_expression(acc);
 
     if (match(acc, TOpenParens))
     {
@@ -748,6 +785,36 @@ static Node *return_statement(ParserAcc *acc)
     return node;
 }
 
+static Node *for_statement(ParserAcc *acc)
+{
+    Node *node = make_node(For);
+
+    consume(acc, TOpenParens);
+    consume(acc, TVar);
+    append_child(node, var_declaration(acc));
+    consume(acc, TSemicolon);
+    append_child(node, expression(acc));
+    consume(acc, TSemicolon);
+    append_child(node, expression(acc));
+    consume(acc, TCloseParens);
+
+    append_child(node, block(acc));
+
+    return node;
+}
+
+static Node *while_statement(ParserAcc *acc)
+{
+    Node *node = make_node(While);
+
+    consume(acc, TOpenParens);
+    append_child(node, expression(acc));
+    consume(acc, TCloseParens);
+    append_child(node, block(acc));
+
+    return node;
+}
+
 static Node *statement(ParserAcc *acc)
 {
     if (match(acc, TConst))
@@ -756,9 +823,29 @@ static Node *statement(ParserAcc *acc)
         consume(acc, TSemicolon);
         return node;
     }
+    else if (match(acc, TFor))
+    {
+        return for_statement(acc);
+    }
+    else if (match(acc, TWhile))
+    {
+        return while_statement(acc);
+    }
     else if (match(acc, TVar))
     {
         Node *node = var_declaration(acc);
+        consume(acc, TSemicolon);
+        return node;
+    }
+    else if (match(acc, TBreak))
+    {
+        Node *node = make_node(Break);
+        consume(acc, TSemicolon);
+        return node;
+    }
+    else if (match(acc, TContinue))
+    {
+        Node *node = make_node(Continue);
         consume(acc, TSemicolon);
         return node;
     }
@@ -863,7 +950,7 @@ static Node *type_expression(ParserAcc *acc)
 
 static Node *const_declaration(ParserAcc *acc)
 {
-    Node *node = make_node(Declaration);
+    Node *node = make_node(ConstDeclaration);
 
     append_child(node, identifier(acc));
 
@@ -893,7 +980,7 @@ static Node *var_reassign(ParserAcc *acc)
 
 static Node *var_declaration(ParserAcc *acc)
 {
-    Node *node = make_node(Declaration);
+    Node *node = make_node(VarDeclaration);
     append_child(node, identifier(acc));
 
     if (match(acc, TColon))
@@ -992,6 +1079,24 @@ static Node *type_identifier(ParserAcc *acc)
             consume(acc, TCloseSquareBracket);
             return array;
         }
+        else if (match(acc, TSt))
+        {
+            Node *type_parameters = make_node(TypeParameters);
+
+            while (true)
+            {
+                append_child(type_parameters, type_expression(acc));
+
+                if (!match(acc, TComma))
+                {
+                    break;
+                }
+            }
+
+            consume(acc, TGt);
+
+            append_child(node, type_parameters);
+        }
 
         return node;
     }
@@ -1089,8 +1194,18 @@ const char *get_node_name(enum NodeType type)
         return "Else";
     case ElseIf:
         return "ElseIf";
+    case While:
+        return "While";
+    case For:
+        return "For";
+    case Continue:
+        return "Continue";
+    case Break:
+        return "Break";
     case StructDeclaration:
         return "StructDeclaration";
+    case TypeParameters:
+        return "TypeParameters";
     case Match:
         return "Match";
     case MatchCase:
@@ -1115,6 +1230,8 @@ const char *get_node_name(enum NodeType type)
         return "FunctionArg";
     case Call:
         return "Call";
+    case Pipe:
+        return "Pipe";
     case CallArg:
         return "CallArg";
     case CallArgs:
@@ -1163,8 +1280,12 @@ const char *get_node_name(enum NodeType type)
         return "PreDecrement";
     case Reassignment:
         return "Reassignment";
-    case Declaration:
-        return "Declaration";
+    case TypeDeclaration:
+        return "TypeDeclaration";
+    case VarDeclaration:
+        return "VarDeclaration";
+    case ConstDeclaration:
+        return "ConstDeclaration";
     case Statement:
         return "Statement";
     case Comment:
