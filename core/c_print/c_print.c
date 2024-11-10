@@ -15,8 +15,8 @@ void print(Context *context, ...)
 {
     va_list args;
     va_start(args, context);
-    // vprintf(format, args);
-    array_push(context->zone, context->output, vstr_template(context->zone, args));
+    String *string = vstr_template(context->zone, args);
+    array_push(context->zone, context->output, string);
     va_end(args);
 }
 
@@ -31,12 +31,11 @@ Context make_context(Zone *zone)
 
     return (Context){
         .zone = zone,
-        .parent = NULL,
+        .parent = (Parent){InGlobalScope, ""},
         .child = NULL,
         .types = types,
         .variables = variables,
         .depth = 0,
-        .parent_type = InGlobalScope,
         .output = array(zone, 100)};
 }
 
@@ -195,7 +194,7 @@ void print_node(Context *context, Node *node, int depth)
     }
     case NStringLiteral:
     {
-        print(context, "%s", node->str_value);
+        print(context, "str(%s)", node->str_value);
         break;
     }
     case NTrue:
@@ -210,13 +209,13 @@ void print_node(Context *context, Node *node, int depth)
     }
     case NStruct:
     {
-        if (context->parent_type == InStructDeclaration)
+        if (context->parent.type == InStructDeclaration)
         {
             print(context, "{");
             print_children(context, node, depth + 1);
             print(context, "\n%s}", indentation);
         }
-        else if (context->parent_type == InVarDeclaration)
+        else if (context->parent.type == InVarDeclaration)
         {
             print_children(context, node, depth);
         }
@@ -229,16 +228,34 @@ void print_node(Context *context, Node *node, int depth)
     }
     case NStructProperty:
     {
-        if (context->parent_type == InStructDeclaration)
+        if (context->parent.type == InStructDeclaration)
         {
             print(context, "\n%s", indentation);
-            print_node(context, n_child(node, 1), depth);
+
+            CType ctype = infer_ctype(context, n_child(node, 1));
+
+            if (ctype.is_primitive)
+            {
+                print_node(context, n_child(node, 1), depth);
+                print(context, " ");
+            }
+            else if (strcmp(ctype.name, context->parent.name) == 0)
+            {
+                print(context, "struct ");
+                print_node(context, n_child(node, 1), depth);
+                print(context, " *");
+            }
+            else
+            {
+                print_node(context, n_child(node, 1), depth);
+                print(context, " *");
+            }
             print_node(context, n_child(node, 0), depth);
             print(context, ";");
         }
-        else if (context->parent_type == InVarDeclaration)
+        else if (context->parent.type == InVarDeclaration)
         {
-            print(context, "\n%s%s->", indentation, context->parent_name);
+            print(context, "\n%s%s->", indentation, context->parent.name);
             print_node(context, n_child(node, 0), depth);
             print(context, " = ");
             print_node(context, n_child(node, 1), depth);
@@ -343,7 +360,7 @@ void print_node(Context *context, Node *node, int depth)
 
         Node *last_node = last_child(node);
 
-        print(context, " {\n");
+        print(context, " {");
         print_node(context, last_node, depth + 1);
         print(context, "\n%s}", indentation);
 
@@ -490,24 +507,25 @@ void print_node(Context *context, Node *node, int depth)
             printf("ERROR: Unknown type\n");
         }
 
-        print(context, "\n%s%s ", indentation, ctype.name);
+        print(context, "\n%s%s", indentation, ctype.name);
 
         char *variable_name = sanetise_identifier(n_child(node, 0)->str_value);
-        print(context, " %s= ", variable_name);
+
+        print(context, " %s = ", variable_name);
 
         if (ctype.is_primitive)
         {
+
             print_node(context, last_child(node), depth);
             print(context, ";");
         }
         else
         {
-            print(context, "malloc(sizeof(%s));\n", ctype.primitive_name);
-            ParentType outer_type = context->parent_type;
-            context->parent_type = InVarDeclaration;
-            context->parent_name = variable_name;
+            print(context, "malloc(sizeof(%s));\n", ctype.name);
+            Parent outer_parent = context->parent;
+            context->parent = (Parent){InVarDeclaration, variable_name};
             print_children_from_n(context, node, depth, 2);
-            context->parent_type = outer_type;
+            context->parent = outer_parent;
         }
 
         break;
@@ -519,7 +537,6 @@ void print_node(Context *context, Node *node, int depth)
     }
     case NStatement:
     {
-        print(context, "\n%s", indentation);
         print_children(context, node, depth);
         print(context, ";");
         break;
@@ -531,16 +548,12 @@ void print_node(Context *context, Node *node, int depth)
     }
     case NEnd:
     {
-        print(context, "\n");
         break;
     }
     case NStructDeclaration:
     {
         char *name = n_child(node, 0)->str_value;
-        ParentType outer_type = context->parent_type;
-        char *c_type_primitive_name = char_ptr_concat("struct ", name);
-        char *c_type_name = char_ptr_concat(c_type_primitive_name, " *");
-        CType type = make_pointer_ctype(c_type_name, c_type_primitive_name);
+        CType type = make_pointer_ctype(name);
         // CType *type = malloc(sizeof(CType));
         // type->bytesize = 1;
         // type->name = c_type_name;
@@ -550,18 +563,21 @@ void print_node(Context *context, Node *node, int depth)
         // Careful I am using a STACK ADDRESS!!
         hashmap_set(context->zone, context->types, name, &type);
 
-        context->parent_type = InStructDeclaration;
-        print(context, "\nstruct %s", name);
+        Parent outer_parent = context->parent;
+        context->parent = (Parent){InStructDeclaration, name};
+
+        print(context, "\ntypedef struct %s", name);
         print(context, " {");
         print_children_from_n(context, node, depth + 1, 1);
-        print(context, "\n};\n");
-        context->parent_type = outer_type;
+        print(context, "\n} %s;\n", name);
+
+        context->parent = outer_parent;
 
         break;
     }
     case NBlock:
     {
-        print(context, " {\n");
+        print(context, " {");
         print_children(context, node, depth + 1);
         print(context, "\n%s}", indentation);
     }
@@ -607,15 +623,15 @@ char *c_print(char *src, bool add_headers)
     struct Context global_context = make_context(&zone);
 
     {
-        CType u8 = {.name = "uint8_t", .bytesize = 1};
-        CType u16 = {.name = "uint16_t", .bytesize = 1};
-        CType u32 = {.name = "uint32_t", .bytesize = 1};
-        CType u64 = {.name = "uint64_t", .bytesize = 1};
+        CType u8 = {.name = "uint8_t", .is_primitive = true};
+        CType u16 = {.name = "uint16_t", .is_primitive = true};
+        CType u32 = {.name = "uint32_t", .is_primitive = true};
+        CType u64 = {.name = "uint64_t", .is_primitive = true};
 
-        CType i8 = {.name = "int8_t", .bytesize = 1};
-        CType i16 = {.name = "int16_t", .bytesize = 1};
-        CType i32 = {.name = "int32_t", .bytesize = 1};
-        CType i64 = {.name = "int64_t", .bytesize = 1};
+        CType i8 = {.name = "int8_t", .is_primitive = true};
+        CType i16 = {.name = "int16_t", .is_primitive = true};
+        CType i32 = {.name = "int32_t", .is_primitive = true};
+        CType i64 = {.name = "int64_t", .is_primitive = true};
 
         hashmap_set(&zone, global_context.types, "u8", &u8);
         hashmap_set(&zone, global_context.types, "u16", &u16);
@@ -627,10 +643,10 @@ char *c_print(char *src, bool add_headers)
         hashmap_set(&zone, global_context.types, "i32", &i32);
         hashmap_set(&zone, global_context.types, "i64", &i64);
 
-        CType string = {.name = "char *", .bytesize = 1};
-        hashmap_set(&zone, global_context.types, "string", &string);
+        CType string = {.name = "String", .is_primitive = true};
+        hashmap_set(&zone, global_context.types, "String", &string);
 
-        CType void_type = {.name = "void", .bytesize = 0};
+        CType void_type = {.name = "void", .is_primitive = true};
         hashmap_set(&zone, global_context.types, "void", &void_type);
     }
 
@@ -640,7 +656,6 @@ char *c_print(char *src, bool add_headers)
     }
 
     print_node(&global_context, node, 0);
-    print(&global_context, "\n");
 
     String *str_output = array_empty_join(&zone, global_context.output);
     char *output = malloc((str_output->length + 1) * (sizeof(char)));

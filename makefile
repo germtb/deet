@@ -11,32 +11,32 @@ CORE_DEPENDENCIES= \
 	./core/c_print/ctype.c \
 	./core/ast/ast.c
 
-test_zone:
+zone_test:
 	$(CC) $(CORE_DEPENDENCIES) ./core/zone/zone_test.c && ./a.out
 	@rm -f *.out
 
-test_string:
+string_test:
 	$(CC) $(CORE_DEPENDENCIES) ./core/string/string_test.c && ./a.out
 	@rm -f *.out
 
-test_array:
+array_test:
 	$(CC)  $(CORE_DEPENDENCIES) ./core/array/array_test.c && ./a.out
 	@rm -f *.out
 
-test_parser:
+parser_test:
 	$(CC) $(CORE_DEPENDENCIES) ./core/parser/parser_test.c && ./a.out
 	@rm -f *.out
 
-test_lexer:
+lexer_test:
 	$(CC) $(CORE_DEPENDENCIES) ./core/lexer/lexer_test.c && ./a.out
 	@rm -f *.out
 
-test_hashmap:
+hashmap_test:
 	$(CC) $(CORE_DEPENDENCIES) ./core/hashmap/hashmap_test.c && ./a.out
 	@rm -f *.out
 
-test_c_print:
-	$(CC) $(CORE_DEPENDENCIES) ./core/c_print/c_print_test.c && ./a.out
+c_print_test:
+	@$(CC) $(CORE_DEPENDENCIES) ./core/c_print/c_print_test.c && ./a.out
 	@rm -f *.out
 
 # c_print:
@@ -51,10 +51,10 @@ vscode:
 	@echo "Installation finished"
 
 test:
-	@make test_zone
-	@make test_string
-	@make test_array
-	@make test_parser
-	@make test_lexer
-	@make test_hashmap
-	@make test_c_print
+	@make zone_test
+	@make string_test
+	@make array_test
+	@make parser_test
+	@make lexer_test
+	@make hashmap_test
+	@make c_print_test

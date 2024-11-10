@@ -1,0 +1,439 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.8	//
+ARRAY_H_	core/array/array.h	/^#define ARRAY_H_$/;"	d
+Acc	core/lexer/lexer.c	/^struct Acc$/;"	s	file:
+AccType	core/lexer/lexer.c	/^enum AccType$/;"	g	file:
+Array	core/array/array.h	/^typedef struct Array$/;"	s
+Array	core/array/array.h	/^} Array;$/;"	t	typeref:struct:Array
+CC	makefile	/^CC=gcc$/;"	m
+CORE_DEPENDENCIES	makefile	/^CORE_DEPENDENCIES= \\$/;"	m
+CTYPE_H_	core/c_print/ctype.h	/^#define CTYPE_H_$/;"	d
+CType	core/c_print/ctype.c	/^typedef struct CType$/;"	s	file:
+CType	core/c_print/ctype.c	/^} CType;$/;"	t	typeref:struct:CType	file:
+CType	core/c_print/ctype.h	/^typedef struct CType$/;"	s
+CType	core/c_print/ctype.h	/^} CType;$/;"	t	typeref:struct:CType
+C_PRINT_H_	core/c_print/c_print.h	/^#define C_PRINT_H_$/;"	d
+Context	core/c_print/c_print.h	/^typedef struct Context$/;"	s
+Context	core/c_print/c_print.h	/^} Context;$/;"	t	typeref:struct:Context
+DEBUG_H_	core/debug/debug.h	/^#define DEBUG_H_$/;"	d
+Empty	core/lexer/lexer.c	/^    Empty,$/;"	e	enum:AccType	file:
+HASHMAP_H_	core/hashmap/hashmap.h	/^#define HASHMAP_H_$/;"	d
+Hashmap	core/hashmap/hashmap.h	/^typedef struct Hashmap$/;"	s
+Hashmap	core/hashmap/hashmap.h	/^} Hashmap;$/;"	t	typeref:struct:Hashmap
+HashmapEntry	core/hashmap/hashmap.h	/^typedef struct HashmapEntry$/;"	s
+HashmapEntry	core/hashmap/hashmap.h	/^} HashmapEntry;$/;"	t	typeref:struct:HashmapEntry
+InComment	core/lexer/lexer.c	/^    InComment,$/;"	e	enum:AccType	file:
+InDecimal	core/lexer/lexer.c	/^    InDecimal,$/;"	e	enum:AccType	file:
+InEffectIdentifier	core/lexer/lexer.c	/^    InEffectIdentifier,$/;"	e	enum:AccType	file:
+InFloat	core/lexer/lexer.c	/^    InFloat,$/;"	e	enum:AccType	file:
+InGlobalScope	core/c_print/c_print.h	/^    InGlobalScope,$/;"	e	enum:ParentType
+InIdentifier	core/lexer/lexer.c	/^    InIdentifier,$/;"	e	enum:AccType	file:
+InInt	core/lexer/lexer.c	/^    InInt,$/;"	e	enum:AccType	file:
+InNamespaceIdentifier	core/lexer/lexer.c	/^    InNamespaceIdentifier,$/;"	e	enum:AccType	file:
+InNumber	core/lexer/lexer.c	/^    InNumber,$/;"	e	enum:AccType	file:
+InString	core/lexer/lexer.c	/^    InString,$/;"	e	enum:AccType	file:
+InStringInterpolatedValue	core/lexer/lexer.c	/^    InStringInterpolatedValue,$/;"	e	enum:AccType	file:
+InStringInterpolation	core/lexer/lexer.c	/^    InStringInterpolation,$/;"	e	enum:AccType	file:
+InStructDeclaration	core/c_print/c_print.h	/^    InStructDeclaration,$/;"	e	enum:ParentType
+InUint	core/lexer/lexer.c	/^    InUint,$/;"	e	enum:AccType	file:
+InVarDeclaration	core/c_print/c_print.h	/^    InVarDeclaration,$/;"	e	enum:ParentType
+LEXER_H_	core/lexer/lexer.h	/^#define LEXER_H_$/;"	d
+NAccess	core/parser/parser.h	/^    NAccess,$/;"	e	enum:NodeType
+NAdd	core/parser/parser.h	/^    NAdd,$/;"	e	enum:NodeType
+NAnd	core/parser/parser.h	/^    NAnd,$/;"	e	enum:NodeType
+NArray	core/parser/parser.h	/^    NArray,$/;"	e	enum:NodeType
+NBitAnd	core/parser/parser.h	/^    NBitAnd,$/;"	e	enum:NodeType
+NBitOr	core/parser/parser.h	/^    NBitOr,$/;"	e	enum:NodeType
+NBlock	core/parser/parser.h	/^    NBlock,$/;"	e	enum:NodeType
+NBreak	core/parser/parser.h	/^    NBreak,$/;"	e	enum:NodeType
+NCall	core/parser/parser.h	/^    NCall,$/;"	e	enum:NodeType
+NCallArg	core/parser/parser.h	/^    NCallArg,$/;"	e	enum:NodeType
+NCallArgs	core/parser/parser.h	/^    NCallArgs,$/;"	e	enum:NodeType
+NComment	core/parser/parser.h	/^    NComment,$/;"	e	enum:NodeType
+NConstDeclaration	core/parser/parser.h	/^    NConstDeclaration,$/;"	e	enum:NodeType
+NContinue	core/parser/parser.h	/^    NContinue,$/;"	e	enum:NodeType
+NDecimal	core/parser/parser.h	/^    NDecimal,$/;"	e	enum:NodeType
+NDefaultCase	core/parser/parser.h	/^    NDefaultCase,$/;"	e	enum:NodeType
+NDiv	core/parser/parser.h	/^    NDiv,$/;"	e	enum:NodeType
+NEffectIdentifier	core/parser/parser.h	/^    NEffectIdentifier,$/;"	e	enum:NodeType
+NElse	core/parser/parser.h	/^    NElse,$/;"	e	enum:NodeType
+NElseIf	core/parser/parser.h	/^    NElseIf,$/;"	e	enum:NodeType
+NEnd	core/parser/parser.h	/^    NEnd,$/;"	e	enum:NodeType
+NEq	core/parser/parser.h	/^    NEq,$/;"	e	enum:NodeType
+NFalse	core/parser/parser.h	/^    NFalse,$/;"	e	enum:NodeType
+NFloat32	core/parser/parser.h	/^    NFloat32,$/;"	e	enum:NodeType
+NFloat64	core/parser/parser.h	/^    NFloat64,$/;"	e	enum:NodeType
+NFor	core/parser/parser.h	/^    NFor,$/;"	e	enum:NodeType
+NFunction	core/parser/parser.h	/^    NFunction,$/;"	e	enum:NodeType
+NFunctionArg	core/parser/parser.h	/^    NFunctionArg,$/;"	e	enum:NodeType
+NFunctionArgs	core/parser/parser.h	/^    NFunctionArgs,$/;"	e	enum:NodeType
+NFunctionDeclaration	core/parser/parser.h	/^    NFunctionDeclaration,$/;"	e	enum:NodeType
+NGe	core/parser/parser.h	/^    NGe,$/;"	e	enum:NodeType
+NGt	core/parser/parser.h	/^    NGt,$/;"	e	enum:NodeType
+NIdentifier	core/parser/parser.h	/^    NIdentifier,$/;"	e	enum:NodeType
+NIf	core/parser/parser.h	/^    NIf,$/;"	e	enum:NodeType
+NInt16	core/parser/parser.h	/^    NInt16,$/;"	e	enum:NodeType
+NInt32	core/parser/parser.h	/^    NInt32,$/;"	e	enum:NodeType
+NInt64	core/parser/parser.h	/^    NInt64,$/;"	e	enum:NodeType
+NInt8	core/parser/parser.h	/^    NInt8,$/;"	e	enum:NodeType
+NMatch	core/parser/parser.h	/^    NMatch,$/;"	e	enum:NodeType
+NMatchCase	core/parser/parser.h	/^    NMatchCase,$/;"	e	enum:NodeType
+NMul	core/parser/parser.h	/^    NMul,$/;"	e	enum:NodeType
+NNegative	core/parser/parser.h	/^    NNegative,$/;"	e	enum:NodeType
+NNeq	core/parser/parser.h	/^    NNeq,$/;"	e	enum:NodeType
+NNot	core/parser/parser.h	/^    NNot,$/;"	e	enum:NodeType
+NNumber	core/parser/parser.h	/^    NNumber,$/;"	e	enum:NodeType
+NOr	core/parser/parser.h	/^    NOr,$/;"	e	enum:NodeType
+NPattern	core/parser/parser.h	/^    NPattern,$/;"	e	enum:NodeType
+NPipe	core/parser/parser.h	/^    NPipe,$/;"	e	enum:NodeType
+NPostDecrement	core/parser/parser.h	/^    NPostDecrement,$/;"	e	enum:NodeType
+NPostIncrement	core/parser/parser.h	/^    NPostIncrement,$/;"	e	enum:NodeType
+NPreDecrement	core/parser/parser.h	/^    NPreDecrement,$/;"	e	enum:NodeType
+NPreIncrement	core/parser/parser.h	/^    NPreIncrement,$/;"	e	enum:NodeType
+NProgram	core/parser/parser.h	/^    NProgram,$/;"	e	enum:NodeType
+NReassignment	core/parser/parser.h	/^    NReassignment,$/;"	e	enum:NodeType
+NReturn	core/parser/parser.h	/^    NReturn,$/;"	e	enum:NodeType
+NSe	core/parser/parser.h	/^    NSe,$/;"	e	enum:NodeType
+NSt	core/parser/parser.h	/^    NSt,$/;"	e	enum:NodeType
+NStatement	core/parser/parser.h	/^    NStatement,$/;"	e	enum:NodeType
+NStringInterpolation	core/parser/parser.h	/^    NStringInterpolation,$/;"	e	enum:NodeType
+NStringLiteral	core/parser/parser.h	/^    NStringLiteral,$/;"	e	enum:NodeType
+NStruct	core/parser/parser.h	/^    NStruct,$/;"	e	enum:NodeType
+NStructDeclaration	core/parser/parser.h	/^    NStructDeclaration,$/;"	e	enum:NodeType
+NStructProperty	core/parser/parser.h	/^    NStructProperty,$/;"	e	enum:NodeType
+NSub	core/parser/parser.h	/^    NSub,$/;"	e	enum:NodeType
+NTrue	core/parser/parser.h	/^    NTrue,$/;"	e	enum:NodeType
+NTypeDeclaration	core/parser/parser.h	/^    NTypeDeclaration,$/;"	e	enum:NodeType
+NTypeIdentifier	core/parser/parser.h	/^    NTypeIdentifier,$/;"	e	enum:NodeType
+NTypeParameters	core/parser/parser.h	/^    NTypeParameters,$/;"	e	enum:NodeType
+NUint16	core/parser/parser.h	/^    NUint16,$/;"	e	enum:NodeType
+NUint32	core/parser/parser.h	/^    NUint32,$/;"	e	enum:NodeType
+NUint64	core/parser/parser.h	/^    NUint64,$/;"	e	enum:NodeType
+NUint8	core/parser/parser.h	/^    NUint8,$/;"	e	enum:NodeType
+NVarDeclaration	core/parser/parser.h	/^    NVarDeclaration,$/;"	e	enum:NodeType
+NWhile	core/parser/parser.h	/^    NWhile,$/;"	e	enum:NodeType
+NXor	core/parser/parser.h	/^    NXor,$/;"	e	enum:NodeType
+Node	core/parser/parser.h	/^typedef struct Node$/;"	s
+Node	core/parser/parser.h	/^} Node;$/;"	t	typeref:struct:Node
+NodeList	core/parser/parser.h	/^typedef struct NodeList$/;"	s
+NodeList	core/parser/parser.h	/^} NodeList;$/;"	t	typeref:struct:NodeList
+NodeType	core/parser/parser.h	/^enum NodeType$/;"	g
+PARSER_H_	core/parser/parser.h	/^#define PARSER_H_$/;"	d
+ParentType	core/c_print/c_print.h	/^typedef enum ParentType$/;"	g
+ParentType	core/c_print/c_print.h	/^} ParentType;$/;"	t	typeref:enum:ParentType
+ParserAcc	core/parser/parser.c	/^typedef struct ParserAcc$/;"	s	file:
+ParserAcc	core/parser/parser.c	/^} ParserAcc;$/;"	t	typeref:struct:ParserAcc	file:
+STRING_H_	core/string/string.h	/^#define STRING_H_$/;"	d
+String	core/string/string.h	/^typedef struct String$/;"	s
+String	core/string/string.h	/^} String;$/;"	t	typeref:struct:String
+TAccess	core/lexer/lexer.h	/^    TAccess,$/;"	e	enum:TokenType
+TAdd	core/lexer/lexer.h	/^    TAdd,$/;"	e	enum:TokenType
+TAnd	core/lexer/lexer.h	/^    TAnd,$/;"	e	enum:TokenType
+TAssign	core/lexer/lexer.h	/^    TAssign,$/;"	e	enum:TokenType
+TBitAnd	core/lexer/lexer.h	/^    TBitAnd,$/;"	e	enum:TokenType
+TBitOr	core/lexer/lexer.h	/^    TBitOr,$/;"	e	enum:TokenType
+TBreak	core/lexer/lexer.h	/^    TBreak,$/;"	e	enum:TokenType
+TCloseCurlyBracket	core/lexer/lexer.h	/^    TCloseCurlyBracket,$/;"	e	enum:TokenType
+TCloseParens	core/lexer/lexer.h	/^    TCloseParens,$/;"	e	enum:TokenType
+TCloseSquareBracket	core/lexer/lexer.h	/^    TCloseSquareBracket,$/;"	e	enum:TokenType
+TColon	core/lexer/lexer.h	/^    TColon,$/;"	e	enum:TokenType
+TComma	core/lexer/lexer.h	/^    TComma,$/;"	e	enum:TokenType
+TComment	core/lexer/lexer.h	/^    TComment,$/;"	e	enum:TokenType
+TConst	core/lexer/lexer.h	/^    TConst,$/;"	e	enum:TokenType
+TContinue	core/lexer/lexer.h	/^    TContinue,$/;"	e	enum:TokenType
+TDecimal	core/lexer/lexer.h	/^    TDecimal,$/;"	e	enum:TokenType
+TDecrement	core/lexer/lexer.h	/^    TDecrement,$/;"	e	enum:TokenType
+TDiv	core/lexer/lexer.h	/^    TDiv,$/;"	e	enum:TokenType
+TEffect	core/lexer/lexer.h	/^    TEffect,$/;"	e	enum:TokenType
+TEffectIdentifier	core/lexer/lexer.h	/^    TEffectIdentifier,$/;"	e	enum:TokenType
+TElse	core/lexer/lexer.h	/^    TElse,$/;"	e	enum:TokenType
+TEnd	core/lexer/lexer.h	/^    TEnd,$/;"	e	enum:TokenType
+TEq	core/lexer/lexer.h	/^    TEq,$/;"	e	enum:TokenType
+TFalse	core/lexer/lexer.h	/^    TFalse,$/;"	e	enum:TokenType
+TFloat32	core/lexer/lexer.h	/^    TFloat32,$/;"	e	enum:TokenType
+TFloat64	core/lexer/lexer.h	/^    TFloat64,$/;"	e	enum:TokenType
+TFn	core/lexer/lexer.h	/^    TFn,$/;"	e	enum:TokenType
+TFnArrow	core/lexer/lexer.h	/^    TFnArrow,$/;"	e	enum:TokenType
+TFor	core/lexer/lexer.h	/^    TFor,$/;"	e	enum:TokenType
+TGe	core/lexer/lexer.h	/^    TGe,$/;"	e	enum:TokenType
+TGt	core/lexer/lexer.h	/^    TGt,$/;"	e	enum:TokenType
+TIdentifier	core/lexer/lexer.h	/^    TIdentifier,$/;"	e	enum:TokenType
+TIf	core/lexer/lexer.h	/^    TIf,$/;"	e	enum:TokenType
+TIncrement	core/lexer/lexer.h	/^    TIncrement,$/;"	e	enum:TokenType
+TInt16	core/lexer/lexer.h	/^    TInt16,$/;"	e	enum:TokenType
+TInt32	core/lexer/lexer.h	/^    TInt32,$/;"	e	enum:TokenType
+TInt64	core/lexer/lexer.h	/^    TInt64,$/;"	e	enum:TokenType
+TInt8	core/lexer/lexer.h	/^    TInt8,$/;"	e	enum:TokenType
+TInvalid	core/lexer/lexer.h	/^    TInvalid,$/;"	e	enum:TokenType
+TMatch	core/lexer/lexer.h	/^    TMatch,$/;"	e	enum:TokenType
+TMul	core/lexer/lexer.h	/^    TMul,$/;"	e	enum:TokenType
+TNamespace	core/lexer/lexer.h	/^    TNamespace,$/;"	e	enum:TokenType
+TNamespaceIdentifier	core/lexer/lexer.h	/^    TNamespaceIdentifier,$/;"	e	enum:TokenType
+TNeq	core/lexer/lexer.h	/^    TNeq,$/;"	e	enum:TokenType
+TNot	core/lexer/lexer.h	/^    TNot,$/;"	e	enum:TokenType
+TNumber	core/lexer/lexer.h	/^    TNumber,$/;"	e	enum:TokenType
+TOpenCurlyBracket	core/lexer/lexer.h	/^    TOpenCurlyBracket,$/;"	e	enum:TokenType
+TOpenParens	core/lexer/lexer.h	/^    TOpenParens,$/;"	e	enum:TokenType
+TOpenSquareBracket	core/lexer/lexer.h	/^    TOpenSquareBracket,$/;"	e	enum:TokenType
+TOr	core/lexer/lexer.h	/^    TOr,$/;"	e	enum:TokenType
+TPipe	core/lexer/lexer.h	/^    TPipe,$/;"	e	enum:TokenType
+TPlaceholder	core/lexer/lexer.h	/^    TPlaceholder,$/;"	e	enum:TokenType
+TREE_UTILS_H_	core/ast/ast.h	/^#define TREE_UTILS_H_$/;"	d
+TRest	core/lexer/lexer.h	/^    TRest,$/;"	e	enum:TokenType
+TResume	core/lexer/lexer.h	/^    TResume,$/;"	e	enum:TokenType
+TReturn	core/lexer/lexer.h	/^    TReturn,$/;"	e	enum:TokenType
+TSe	core/lexer/lexer.h	/^    TSe,$/;"	e	enum:TokenType
+TSemicolon	core/lexer/lexer.h	/^    TSemicolon,$/;"	e	enum:TokenType
+TSt	core/lexer/lexer.h	/^    TSt,$/;"	e	enum:TokenType
+TStart	core/lexer/lexer.h	/^    TStart,$/;"	e	enum:TokenType
+TString	core/lexer/lexer.h	/^    TString,$/;"	e	enum:TokenType
+TStringInterpolation	core/lexer/lexer.h	/^    TStringInterpolation,$/;"	e	enum:TokenType
+TStruct	core/lexer/lexer.h	/^    TStruct,$/;"	e	enum:TokenType
+TSub	core/lexer/lexer.h	/^    TSub,$/;"	e	enum:TokenType
+TTrue	core/lexer/lexer.h	/^    TTrue,$/;"	e	enum:TokenType
+TType	core/lexer/lexer.h	/^    TType,$/;"	e	enum:TokenType
+TUint16	core/lexer/lexer.h	/^    TUint16,$/;"	e	enum:TokenType
+TUint32	core/lexer/lexer.h	/^    TUint32,$/;"	e	enum:TokenType
+TUint64	core/lexer/lexer.h	/^    TUint64,$/;"	e	enum:TokenType
+TUint8	core/lexer/lexer.h	/^    TUint8,$/;"	e	enum:TokenType
+TUnion	core/lexer/lexer.h	/^    TUnion,$/;"	e	enum:TokenType
+TVar	core/lexer/lexer.h	/^    TVar,$/;"	e	enum:TokenType
+TWhile	core/lexer/lexer.h	/^    TWhile,$/;"	e	enum:TokenType
+TWith	core/lexer/lexer.h	/^    TWith,$/;"	e	enum:TokenType
+TXor	core/lexer/lexer.h	/^    TXor,$/;"	e	enum:TokenType
+Token	core/lexer/lexer.h	/^typedef struct Token$/;"	s
+Token	core/lexer/lexer.h	/^} Token;$/;"	t	typeref:struct:Token
+TokenType	core/lexer/lexer.h	/^enum TokenType$/;"	g
+TraverseAcc	core/parser/parser_test.c	/^typedef struct TraverseAcc$/;"	s	file:
+TraverseAcc	core/parser/parser_test.c	/^} TraverseAcc;$/;"	t	typeref:struct:TraverseAcc	file:
+ZONE_H_	core/zone/zone.h	/^#define ZONE_H_$/;"	d
+Zone	core/zone/zone.h	/^typedef struct Zone$/;"	s
+Zone	core/zone/zone.h	/^} Zone;$/;"	t	typeref:struct:Zone
+access	core/parser/parser.c	/^static Node *access(ParserAcc *acc)$/;"	f	file:
+append_child	core/parser/parser.c	/^static void append_child(Node *parent, Node *child)$/;"	f	file:
+array	core/array/array.c	/^Array *array(Zone *z, uint32_t capacity)$/;"	f
+array	core/parser/parser.c	/^static Node *array(ParserAcc *acc)$/;"	f	file:
+array_at	core/array/array.c	/^void *array_at(Array *a, uint32_t index)$/;"	f
+array_empty_join	core/array/array.c	/^String *array_empty_join(Zone *zone, Array *a)$/;"	f
+array_from	core/array/array.c	/^Array *array_from(Zone *zone, ...)$/;"	f
+array_join	core/array/array.c	/^String *array_join(Zone *zone, Array *a, char c)$/;"	f
+array_pop	core/array/array.c	/^void *array_pop(Array *a)$/;"	f
+array_push	core/array/array.c	/^void array_push(Zone *zone, Array *a, void *data)$/;"	f
+bit_operation	core/parser/parser.c	/^static Node *bit_operation(ParserAcc *acc)$/;"	f	file:
+block	core/parser/parser.c	/^static Node *block(ParserAcc *acc)$/;"	f	file:
+boolean_operation	core/parser/parser.c	/^static Node *boolean_operation(ParserAcc *acc)$/;"	f	file:
+bytesize	core/c_print/ctype.c	/^    int bytesize;$/;"	m	struct:CType	file:
+bytesize	core/c_print/ctype.h	/^    int bytesize;$/;"	m	struct:CType
+c_print	core/c_print/c_print.c	/^char *c_print(char *src, bool add_headers)$/;"	f
+call_arg	core/parser/parser.c	/^static Node *call_arg(ParserAcc *acc)$/;"	f	file:
+call_args	core/parser/parser.c	/^static Node *call_args(ParserAcc *acc)$/;"	f	file:
+call_expression	core/parser/parser.c	/^static Node *call_expression(ParserAcc *acc)$/;"	f	file:
+capacity	core/array/array.h	/^    size_t capacity;$/;"	m	struct:Array
+capacity	core/hashmap/hashmap.h	/^    uint32_t capacity;$/;"	m	struct:Hashmap
+capacity	core/zone/zone.h	/^    size_t capacity;$/;"	m	struct:Zone
+char_ptr_concat	core/string/string.c	/^char *char_ptr_concat(char *str_1, char *str_2)$/;"	f
+child	core/c_print/c_print.h	/^    struct Context *child;$/;"	m	struct:Context	typeref:struct:Context::Context
+children_count	core/parser/parser.c	/^int children_count(Node *node)$/;"	f
+comparison	core/parser/parser.c	/^static Node *comparison(ParserAcc *acc)$/;"	f	file:
+const_declaration	core/parser/parser.c	/^static Node *const_declaration(ParserAcc *acc)$/;"	f	file:
+consume	core/parser/parser.c	/^static void consume(ParserAcc *acc, enum TokenType expected)$/;"	f	file:
+content	core/lexer/lexer.c	/^    char content[100];$/;"	m	struct:Acc	file:
+content	core/lexer/lexer.h	/^    char *content;$/;"	m	struct:Token
+count	core/hashmap/hashmap.h	/^    uint32_t count;$/;"	m	struct:Hashmap
+counter	core/parser/parser_test.c	/^int counter = 0;$/;"	v
+current_token	core/parser/parser.c	/^static Token *current_token(ParserAcc *acc)$/;"	f	file:
+data	core/array/array.h	/^    void **data;$/;"	m	struct:Array
+data	core/string/string.h	/^    char *data;$/;"	m	struct:String
+depth	core/c_print/c_print.h	/^    int depth;$/;"	m	struct:Context
+effect_identifier	core/parser/parser.c	/^static Node *effect_identifier(ParserAcc *acc)$/;"	f	file:
+else_if_node	core/parser/parser.c	/^static Node *else_if_node(ParserAcc *acc)$/;"	f	file:
+else_node	core/parser/parser.c	/^static Node *else_node(ParserAcc *acc)$/;"	f	file:
+entries	core/hashmap/hashmap.h	/^    struct HashmapEntry **entries;$/;"	m	struct:Hashmap	typeref:struct:Hashmap::HashmapEntry
+equality	core/parser/parser.c	/^static Node *equality(ParserAcc *acc)$/;"	f	file:
+expectations	core/parser/parser_test.c	/^    enum NodeType *expectations;$/;"	m	struct:TraverseAcc	typeref:enum:TraverseAcc::NodeType	file:
+expression	core/parser/parser.c	/^static Node *expression(ParserAcc *acc)$/;"	f	file:
+factor	core/parser/parser.c	/^static Node *factor(ParserAcc *acc)$/;"	f	file:
+fn	core/parser/parser.c	/^static Node *fn(ParserAcc *acc)$/;"	f	file:
+fn_declaration	core/parser/parser.c	/^static Node *fn_declaration(ParserAcc *acc)$/;"	f	file:
+for_statement	core/parser/parser.c	/^static Node *for_statement(ParserAcc *acc)$/;"	f	file:
+free_zone	core/zone/zone.c	/^void free_zone(Zone *zone)$/;"	f
+function_arg	core/parser/parser.c	/^static Node *function_arg(ParserAcc *acc)$/;"	f	file:
+function_args	core/parser/parser.c	/^static Node *function_args(ParserAcc *acc)$/;"	f	file:
+get_acc_type	core/lexer/lexer.c	/^char *get_acc_type(enum AccType acc_type)$/;"	f
+get_expected	core/parser/parser_test.c	/^enum NodeType get_expected(TraverseAcc *acc)$/;"	f
+get_node_name	core/parser/parser.c	/^const char *get_node_name(enum NodeType type)$/;"	f
+get_token_name	core/lexer/lexer.c	/^char *get_token_name(enum TokenType type)$/;"	f
+hash	core/hashmap/hashmap.c	/^uint64_t hash(const char *data)$/;"	f
+hashmap_get	core/hashmap/hashmap.c	/^void *hashmap_get(Hashmap *map, char *key)$/;"	f
+hashmap_get_entry	core/hashmap/hashmap.c	/^HashmapEntry *hashmap_get_entry(Hashmap *map, char *key)$/;"	f
+hashmap_has	core/hashmap/hashmap.c	/^bool hashmap_has(Hashmap *map, char *key)$/;"	f
+hashmap_iterator	core/hashmap/hashmap.c	/^HashmapEntry *hashmap_iterator(Zone *zone, Hashmap *map)$/;"	f
+hashmap_iterator_free	core/hashmap/hashmap.c	/^void hashmap_iterator_free(HashmapEntry *entry)$/;"	f
+hashmap_resize	core/hashmap/hashmap.c	/^void hashmap_resize(Zone *zone, Hashmap *map, uint32_t new_size)$/;"	f
+hashmap_set	core/hashmap/hashmap.c	/^void hashmap_set(Zone *zone, Hashmap *map, char *key, void *value)$/;"	f
+hashmod	core/hashmap/hashmap.c	/^uint64_t hashmod(const char *data, uint64_t mod)$/;"	f
+head	core/parser/parser.c	/^    Token *head;$/;"	m	struct:ParserAcc	file:
+head	core/parser/parser.h	/^    struct NodeList *head;$/;"	m	struct:Node	typeref:struct:Node::NodeList
+identifier	core/parser/parser.c	/^static Node *identifier(ParserAcc *acc)$/;"	f	file:
+if_node	core/parser/parser.c	/^static Node *if_node(ParserAcc *acc)$/;"	f	file:
+index	core/parser/parser_test.c	/^    int index;$/;"	m	struct:TraverseAcc	file:
+infer_ctype	core/c_print/ctype.c	/^CType infer_ctype(Context *context, Node *node)$/;"	f
+init_zone	core/zone/zone.c	/^static void init_zone(Zone *zone, size_t capacity)$/;"	f	file:
+is_letter	core/lexer/lexer.c	/^bool is_letter(char c)$/;"	f
+is_lineend	core/lexer/lexer.c	/^bool is_lineend(char c)$/;"	f
+is_number	core/lexer/lexer.c	/^bool is_number(char c)$/;"	f
+is_prefix	core/lexer/lexer.c	/^bool is_prefix(char *str, char *prefix)$/;"	f
+is_primitive	core/c_print/ctype.c	/^    bool is_primitive;$/;"	m	struct:CType	file:
+is_primitive	core/c_print/ctype.h	/^    bool is_primitive;$/;"	m	struct:CType
+is_valid_identifier_part	core/lexer/lexer.c	/^bool is_valid_identifier_part(char c)$/;"	f
+is_whitespace	core/lexer/lexer.c	/^bool is_whitespace(char c)$/;"	f
+key	core/hashmap/hashmap.h	/^    char *key;$/;"	m	struct:HashmapEntry
+last	core/parser/parser.c	/^    Token *last;$/;"	m	struct:ParserAcc	file:
+last_child	core/ast/ast.c	/^Node *last_child(Node *node)$/;"	f
+len	core/lexer/lexer.c	/^    int len;$/;"	m	struct:Acc	file:
+length	core/string/string.h	/^    uint32_t length;$/;"	m	struct:String
+list	core/lexer/lexer.c	/^    Token *list;$/;"	m	struct:Acc	file:
+main	core/array/array_test.c	/^int main()$/;"	f
+main	core/c_print/c_print_test.c	/^int main()$/;"	f
+main	core/hashmap/hashmap_test.c	/^int main()$/;"	f
+main	core/lexer/lexer_test.c	/^int main()$/;"	f
+main	core/parser/parser_test.c	/^int main()$/;"	f
+main	core/pretty_print/pretty_print.c	/^int main()$/;"	f
+main	core/string/string_test.c	/^int main()$/;"	f
+main	core/zone/zone_test.c	/^int main()$/;"	f
+make_context	core/c_print/c_print.c	/^Context make_context(Zone *zone)$/;"	f
+make_ctype_not_found	core/c_print/ctype.c	/^CType make_ctype_not_found()$/;"	f
+make_hashmap	core/hashmap/hashmap.c	/^Hashmap *make_hashmap(Zone *zone, uint32_t capacity)$/;"	f
+make_node	core/parser/parser.c	/^static Node *make_node(enum NodeType type)$/;"	f	file:
+make_pointer_ctype	core/c_print/ctype.c	/^CType make_pointer_ctype(char *name, char *primitive_name)$/;"	f
+make_primitive_ctype	core/c_print/ctype.c	/^CType make_primitive_ctype(char *name, int bytesize)$/;"	f
+make_token	core/lexer/lexer.c	/^void make_token(enum TokenType type, struct Acc *acc, int trim)$/;"	f
+make_zone	core/zone/zone.c	/^Zone make_zone(size_t capacity)$/;"	f
+match	core/parser/parser.c	/^static bool match(ParserAcc *acc, enum TokenType expected)$/;"	f	file:
+memory	core/zone/zone.h	/^    uint8_t *memory;$/;"	m	struct:Zone
+n_child	core/ast/ast.c	/^Node *n_child(Node *node, uint32_t count)$/;"	f
+name	core/c_print/ctype.c	/^    char *name;$/;"	m	struct:CType	file:
+name	core/c_print/ctype.h	/^    char *name;$/;"	m	struct:CType
+next	core/hashmap/hashmap.h	/^    struct HashmapEntry *next;$/;"	m	struct:HashmapEntry	typeref:struct:HashmapEntry::HashmapEntry
+next	core/lexer/lexer.h	/^    struct Token *next;$/;"	m	struct:Token	typeref:struct:Token::Token
+next	core/parser/parser.c	/^static void next(ParserAcc *acc)$/;"	f	file:
+next	core/parser/parser.h	/^    struct NodeList *next;$/;"	m	struct:NodeList	typeref:struct:NodeList::NodeList
+next	core/zone/zone.h	/^    struct Zone *next;$/;"	m	struct:Zone	typeref:struct:Zone::Zone
+output	core/c_print/c_print.h	/^    Array *output;$/;"	m	struct:Context
+parent	core/c_print/c_print.h	/^    struct Context *parent;$/;"	m	struct:Context	typeref:struct:Context::Context
+parent_name	core/c_print/c_print.h	/^    char *parent_name;$/;"	m	struct:Context
+parent_type	core/c_print/c_print.h	/^    ParentType parent_type;$/;"	m	struct:Context
+parse	core/parser/parser.c	/^Node *parse(char *src)$/;"	f
+parse_and_expect_types	core/parser/parser_test.c	/^void parse_and_expect_types(char *src, enum NodeType *expectations)$/;"	f
+peek	core/parser/parser.c	/^static bool peek(ParserAcc *acc, enum TokenType expected)$/;"	f	file:
+peek_n	core/parser/parser.c	/^static bool peek_n(ParserAcc *acc, enum TokenType expected, int n)$/;"	f	file:
+pipe_expression	core/parser/parser.c	/^static Node *pipe_expression(ParserAcc *acc)$/;"	f	file:
+pointer	core/zone/zone.h	/^    size_t pointer;$/;"	m	struct:Zone
+post_decrement	core/parser/parser.c	/^static Node *post_decrement(ParserAcc *acc)$/;"	f	file:
+post_increment	core/parser/parser.c	/^static Node *post_increment(ParserAcc *acc)$/;"	f	file:
+pre_decrement	core/parser/parser.c	/^static Node *pre_decrement(ParserAcc *acc)$/;"	f	file:
+pre_increment	core/parser/parser.c	/^static Node *pre_increment(ParserAcc *acc)$/;"	f	file:
+previous	core/parser/parser.c	/^static Token *previous(ParserAcc *acc)$/;"	f	file:
+primary	core/parser/parser.c	/^static Node *primary(ParserAcc *acc)$/;"	f	file:
+primitive_name	core/c_print/ctype.c	/^    char *primitive_name;$/;"	m	struct:CType	file:
+primitive_name	core/c_print/ctype.h	/^    char *primitive_name;$/;"	m	struct:CType
+print	core/c_print/c_print.c	/^void print(Context *context, ...)$/;"	f
+print_array	core/array/array.c	/^void print_array(Array *a)$/;"	f
+print_ast	core/debug/debug.c	/^void print_ast(char *src)$/;"	f
+print_children	core/c_print/c_print.c	/^void print_children(Context *context, Node *node, int depth)$/;"	f
+print_children	core/pretty_print/pretty_print.c	/^void print_children(Node *node, int depth, int (*print)(const char *text, ...))$/;"	f
+print_children_from_n	core/c_print/c_print.c	/^void print_children_from_n(Context *context, Node *node, int depth, int n)$/;"	f
+print_children_from_n	core/pretty_print/pretty_print.c	/^void print_children_from_n(Node *node, int depth, int (*print)(const char *text, ...), int n)$/;"	f
+print_file	core/pretty_print/pretty_print.c	/^char *print_file(const char *filename)$/;"	f
+print_hashmap	core/hashmap/hashmap.c	/^void print_hashmap(Hashmap *map)$/;"	f
+print_iterator	core/hashmap/hashmap.c	/^void print_iterator(HashmapEntry *entry)$/;"	f
+print_n_child	core/pretty_print/pretty_print.c	/^void print_n_child(Node *node, int depth, int (*print)(const char *text, ...), int n)$/;"	f
+print_node	core/c_print/c_print.c	/^void print_node(Context *context, Node *node, int depth)$/;"	f
+print_node	core/pretty_print/pretty_print.c	/^void print_node(Node *node, int depth, int (*print)(const char *text, ...))$/;"	f
+print_node_ast	core/debug/debug.c	/^void print_node_ast(Node *node, int depth)$/;"	f
+print_op	core/c_print/c_print.c	/^void print_op(Context *context, Node *node, int depth, char *op)$/;"	f
+print_op	core/pretty_print/pretty_print.c	/^void print_op(Node *node, int depth, int (*print)(const char *text, ...), char *op)$/;"	f
+print_tokens	core/lexer/lexer.c	/^void print_tokens(char *src)$/;"	f
+print_zone	core/debug/debug.c	/^void print_zone(Zone *zone)$/;"	f
+program	core/parser/parser.c	/^static Node *program(ParserAcc *acc)$/;"	f	file:
+read_next	core/lexer/lexer.c	/^char read_next(struct Acc *acc)$/;"	f
+read_peek	core/lexer/lexer.c	/^char read_peek(struct Acc *acc)$/;"	f
+reset_acc	core/lexer/lexer.c	/^void reset_acc(struct Acc *acc)$/;"	f
+return_statement	core/parser/parser.c	/^static Node *return_statement(ParserAcc *acc)$/;"	f	file:
+sanetise_identifier	core/c_print/c_print.c	/^char *sanetise_identifier(char *identifier)$/;"	f
+size	core/array/array.h	/^    uint32_t size;$/;"	m	struct:Array
+src	core/lexer/lexer.c	/^    char *src;$/;"	m	struct:Acc	file:
+statement	core/parser/parser.c	/^static Node *statement(ParserAcc *acc)$/;"	f	file:
+str	core/string/string.c	/^String *str(Zone *z, const char *data)$/;"	f
+str_concat	core/string/string.c	/^String *str_concat(Zone *zone, ...)$/;"	f
+str_equal	core/string/string.c	/^bool str_equal(String *s, String *t)$/;"	f
+str_equal_cstr	core/string/string.c	/^bool str_equal_cstr(String *s, const char *t)$/;"	f
+str_fill	core/string/string.c	/^void str_fill(String *s, char c)$/;"	f
+str_includes	core/string/string.c	/^bool str_includes(String *s, String *t)$/;"	f
+str_includes_cstr	core/string/string.c	/^bool str_includes_cstr(String *s, const char *t)$/;"	f
+str_len	core/string/string.c	/^String *str_len(Zone *z, uint32_t length)$/;"	f
+str_template	core/string/string.c	/^String *str_template(Zone *zone, ...)$/;"	f
+str_value	core/parser/parser.h	/^    char *str_value;$/;"	m	struct:Node
+string_match_ignore_whitespace	core/c_print/c_print_test.c	/^bool string_match_ignore_whitespace(const char *given, const char *expected)$/;"	f
+struct_declaration	core/parser/parser.c	/^static Node *struct_declaration(ParserAcc *acc)$/;"	f	file:
+struct_expression	core/parser/parser.c	/^static Node *struct_expression(ParserAcc *acc)$/;"	f	file:
+struct_property	core/parser/parser.c	/^static Node *struct_property(ParserAcc *acc)$/;"	f	file:
+struct_type	core/parser/parser.c	/^static Node *struct_type(ParserAcc *acc)$/;"	f	file:
+struct_type_property	core/parser/parser.c	/^static Node *struct_type_property(ParserAcc *acc)$/;"	f	file:
+tail	core/parser/parser.h	/^    struct NodeList *tail;$/;"	m	struct:Node	typeref:struct:Node::NodeList
+term	core/parser/parser.c	/^static Node *term(ParserAcc *acc)$/;"	f	file:
+test	core/c_print/c_print_test.c	/^void test(char *given, char *expected)$/;"	f
+test_allocate	core/zone/zone_test.c	/^void test_allocate()$/;"	f
+test_array	core/array/array_test.c	/^void test_array(Zone *z)$/;"	f
+test_array_from	core/array/array_test.c	/^void test_array_from(Zone *z)$/;"	f
+test_array_pop	core/array/array_test.c	/^void test_array_pop(Zone *z)$/;"	f
+test_array_push	core/array/array_test.c	/^void test_array_push(Zone *z)$/;"	f
+test_array_resize	core/array/array_test.c	/^void test_array_resize(Zone *z)$/;"	f
+test_array_with_struct	core/array/array_test.c	/^void test_array_with_struct(Zone *z)$/;"	f
+test_create_linked_zone	core/zone/zone_test.c	/^void test_create_linked_zone()$/;"	f
+test_create_zone	core/zone/zone_test.c	/^void test_create_zone()$/;"	f
+test_hash	core/hashmap/hashmap_test.c	/^void test_hash(Zone *z)$/;"	f
+test_hashmap_get	core/hashmap/hashmap_test.c	/^void test_hashmap_get(Zone *z)$/;"	f
+test_hashmap_get_entry	core/hashmap/hashmap_test.c	/^void test_hashmap_get_entry(Zone *z)$/;"	f
+test_hashmap_init	core/hashmap/hashmap_test.c	/^void test_hashmap_init(Zone *z)$/;"	f
+test_hashmap_iterator	core/hashmap/hashmap_test.c	/^void test_hashmap_iterator(Zone *z)$/;"	f
+test_hashmap_many_sets_many_gets	core/hashmap/hashmap_test.c	/^void test_hashmap_many_sets_many_gets(Zone *z)$/;"	f
+test_hashmap_resize	core/hashmap/hashmap_test.c	/^void test_hashmap_resize(Zone *z)$/;"	f
+test_hashmap_set	core/hashmap/hashmap_test.c	/^void test_hashmap_set(Zone *z)$/;"	f
+test_hashmap_set_then_get	core/hashmap/hashmap_test.c	/^void test_hashmap_set_then_get(Zone *z)$/;"	f
+test_hashmap_set_then_get_entry	core/hashmap/hashmap_test.c	/^void test_hashmap_set_then_get_entry(Zone *z)$/;"	f
+test_hashmap_set_with_collision	core/hashmap/hashmap_test.c	/^void test_hashmap_set_with_collision(Zone *z)$/;"	f
+test_hashmap_set_with_same_key	core/hashmap/hashmap_test.c	/^void test_hashmap_set_with_same_key(Zone *z)$/;"	f
+test_hashmod	core/hashmap/hashmap_test.c	/^void test_hashmod(Zone *z)$/;"	f
+test_join	core/array/array_test.c	/^void test_join(Zone *z)$/;"	f
+test_make_str	core/string/string_test.c	/^void test_make_str(Zone *zone)$/;"	f
+test_str_complex_concat	core/string/string_test.c	/^void test_str_complex_concat(Zone *zone)$/;"	f
+test_str_concat	core/string/string_test.c	/^void test_str_concat(Zone *zone)$/;"	f
+test_str_copy	core/string/string_test.c	/^void test_str_copy(Zone *zone)$/;"	f
+test_str_length	core/string/string_test.c	/^void test_str_length(Zone *zone)$/;"	f
+test_str_template	core/string/string_test.c	/^void test_str_template(Zone *zone)$/;"	f
+tokenize	core/lexer/lexer.c	/^Token *tokenize(char *src)$/;"	f
+tokenize_and_get_types	core/lexer/lexer_test.c	/^void tokenize_and_get_types(char *src, enum TokenType *expected, int count)$/;"	f
+tokenize_and_get_values	core/lexer/lexer_test.c	/^void tokenize_and_get_values(char *src, char *expected[], int count)$/;"	f
+traverse_expect	core/parser/parser_test.c	/^bool traverse_expect(struct Node *node, TraverseAcc *acc)$/;"	f
+type	core/lexer/lexer.c	/^    enum AccType type;$/;"	m	struct:Acc	typeref:enum:Acc::AccType	file:
+type	core/lexer/lexer.h	/^    enum TokenType type;$/;"	m	struct:Token	typeref:enum:Token::TokenType
+type	core/parser/parser.h	/^    enum NodeType type;$/;"	m	struct:Node	typeref:enum:Node::NodeType
+type_declaration	core/parser/parser.c	/^static Node *type_declaration(ParserAcc *acc)$/;"	f	file:
+type_expression	core/parser/parser.c	/^static Node *type_expression(ParserAcc *acc)$/;"	f	file:
+type_identifier	core/parser/parser.c	/^static Node *type_identifier(ParserAcc *acc)$/;"	f	file:
+types	core/c_print/c_print.h	/^    struct Hashmap *types;$/;"	m	struct:Context	typeref:struct:Context::Hashmap
+unary	core/parser/parser.c	/^static Node *unary(ParserAcc *acc)$/;"	f	file:
+value	core/hashmap/hashmap.h	/^    void *value;$/;"	m	struct:HashmapEntry
+value	core/parser/parser.h	/^    struct Node *value;$/;"	m	struct:NodeList	typeref:struct:NodeList::Node
+var_declaration	core/parser/parser.c	/^static Node *var_declaration(ParserAcc *acc)$/;"	f	file:
+var_reassign	core/parser/parser.c	/^static Node *var_reassign(ParserAcc *acc)$/;"	f	file:
+variables	core/c_print/c_print.h	/^    struct Hashmap *variables;$/;"	m	struct:Context	typeref:struct:Context::Hashmap
+vstr_template	core/string/string.c	/^String *vstr_template(Zone *zone, va_list args)$/;"	f
+while_statement	core/parser/parser.c	/^static Node *while_statement(ParserAcc *acc)$/;"	f	file:
+zalloc	core/zone/zone.c	/^void *zalloc(Zone *zone, size_t size)$/;"	f
+zone	core/c_print/c_print.h	/^    Zone *zone;$/;"	m	struct:Context

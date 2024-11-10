@@ -11,15 +11,19 @@ typedef enum ParentType
     InVarDeclaration,
 } ParentType;
 
+typedef struct Parent
+{
+    ParentType type;
+    char *name;
+} Parent;
+
 typedef struct Context
 {
-    struct Context *parent;
     struct Context *child;
     struct Hashmap *types;
     struct Hashmap *variables;
     int depth;
-    char *parent_name;
-    ParentType parent_type;
+    Parent parent;
     Zone *zone;
     Array *output;
 } Context;

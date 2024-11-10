@@ -1,4 +1,6 @@
 #include "c_print.h"
+#include "../debug/debug.h"
+#include "../parser/parser.h"
 
 #include <assert.h>
 #include <stdio.h>
@@ -34,12 +36,15 @@ bool string_match_ignore_whitespace(const char *given, const char *expected)
         }
         else
         {
+            printf("Failed comparing %s and %s\n", s, t);
             return false;
         }
     }
 
     return true;
 }
+
+int success = 1;
 
 void test(char *given, char *expected)
 {
@@ -49,10 +54,9 @@ void test(char *given, char *expected)
         printf("---\n");
         printf("Expected:\n%s\n", expected);
         printf("---\n");
-        printf("Got:\n%s\n", given);
+        printf("Got:\n%s\n", s);
         printf("---\n");
-        printf("Failed comparing char %c with %c\n", *s, *t);
-        printf("---\n");
+        success = success == 0;
     }
 }
 
@@ -60,4 +64,17 @@ int main()
 {
     test("fn main() {}", "void main() {}");
     test("fn main(): u8 {}", "uint8_t main() {}");
+    test("fn main(): u8 { return 10; }", "uint8_t main() { return 10; }");
+    test("fn main(): u8 { const i: u8 = 10; return i; }", "uint8_t main() { uint8_t i = 10; return i; }");
+    test("fn main() { const i = true; }", "void main() { bool i = true; }");
+    test("fn main() { const s = \"hello\"; }", "void main() { String s = str(\"hello\");}");
+    test("struct A {};", "typedef struct A {} A;");
+    test("struct A { name: String };", "typedef struct A { String name; } A;");
+    test("struct A { next: A };", "typedef struct A { struct A *next; } A;");
+    test("struct A {}; struct B { a: A };", "typedef struct A {} A;");
+
+    if (success == 1)
+    {
+        printf("All tests passed\n");
+    }
 }
