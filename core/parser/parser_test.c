@@ -178,23 +178,23 @@ int main()
         parse_and_expect_types("type foo = u8[];", expected);
     }
     {
-        enum NodeType expected[] = {NProgram, NTypeDeclaration, NTypeIdentifier, NStruct, NStructProperty, NIdentifier, NTypeIdentifier, NEnd};
+        enum NodeType expected[] = {NProgram, NTypeDeclaration, NTypeIdentifier, NStructType, NStructProperty, NIdentifier, NTypeIdentifier, NEnd};
         parse_and_expect_types("type foo = { bar: u8 };", expected);
     }
     {
-        enum NodeType expected[] = {NProgram, NTypeDeclaration, NTypeIdentifier, NStruct, NStructProperty, NIdentifier, NTypeIdentifier, NStructProperty, NIdentifier, NTypeIdentifier, NEnd};
+        enum NodeType expected[] = {NProgram, NTypeDeclaration, NTypeIdentifier, NStructType, NStructProperty, NIdentifier, NTypeIdentifier, NStructProperty, NIdentifier, NTypeIdentifier, NEnd};
         parse_and_expect_types("type foo = { bar: u8, goo: u32 };", expected);
     }
     {
-        enum NodeType expected[] = {NProgram, NTypeDeclaration, NTypeIdentifier, NStruct, NStructProperty, NIdentifier, NArray, NTypeIdentifier, NEnd};
+        enum NodeType expected[] = {NProgram, NTypeDeclaration, NTypeIdentifier, NStructType, NStructProperty, NIdentifier, NArray, NTypeIdentifier, NEnd};
         parse_and_expect_types("type foo = { bar: u8[] };", expected);
     }
     {
-        enum NodeType expected[] = {NProgram, NTypeDeclaration, NTypeIdentifier, NStruct, NStructProperty, NIdentifier, NStruct, NEnd};
+        enum NodeType expected[] = {NProgram, NTypeDeclaration, NTypeIdentifier, NStructType, NStructProperty, NIdentifier, NStructType, NEnd};
         parse_and_expect_types("type foo = { bar: {} };", expected);
     }
     {
-        enum NodeType expected[] = {NProgram, NTypeDeclaration, NTypeIdentifier, NStruct, NStructProperty, NIdentifier, NStruct, NStructProperty, NIdentifier, NTypeIdentifier, NEnd};
+        enum NodeType expected[] = {NProgram, NTypeDeclaration, NTypeIdentifier, NStructType, NStructProperty, NIdentifier, NStructType, NStructProperty, NIdentifier, NTypeIdentifier, NEnd};
         parse_and_expect_types("type foo = { bar: { bar: u8 } };", expected);
     }
     {
