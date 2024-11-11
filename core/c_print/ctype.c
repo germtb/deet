@@ -90,6 +90,7 @@ CType infer_ctype(Context *context, Node *node)
         return make_primitive_ctype("TODO: Return");
     case NIdentifier:
         return make_primitive_ctype("TODO: Identifier");
+    case NStructType:
     case NStruct:
     {
         // if (node == NULL)

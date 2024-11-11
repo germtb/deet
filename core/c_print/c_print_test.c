@@ -72,6 +72,16 @@ int main()
     test("struct A { name: String };", "typedef struct A { String name; } A;");
     test("struct A { next: A };", "typedef struct A { struct A *next; } A;");
     test("struct A {}; struct B { a: A };", "typedef struct A {} A; typedef struct B { A *a; } B;");
+    test("struct A {}; fn main(): A {}", "typedef struct A {} A; A *main() {}");
+    test("12u8;", "12;");
+    test("1 + 1;", "1 + 1;");
+    test("1 > 1;", "1 > 1;");
+    test("1 == 1;", "1 == 1;");
+    test("1 && 1;", "1 && 1;");
+    test("foo++;", "foo++;");
+    test("true;", "true;");
+    // test("struct A {}; const a: A = {};", "");
+    // test("{ foo: 12u8 };", "");
 
     if (success == 1)
     {

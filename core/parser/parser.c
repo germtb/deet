@@ -909,7 +909,7 @@ static Node *struct_type_property(ParserAcc *acc)
 
 static Node *struct_type(ParserAcc *acc)
 {
-    Node *node = make_node(NStruct);
+    Node *node = make_node(NStructType);
 
     if (match(acc, TCloseCurlyBracket))
     {
@@ -1180,6 +1180,8 @@ const char *get_node_name(enum NodeType type)
         return "True";
     case NFalse:
         return "False";
+    case NStructType:
+        return "StructType";
     case NStruct:
         return "Struct";
     case NStructProperty:

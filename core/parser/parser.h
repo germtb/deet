@@ -29,6 +29,7 @@ enum NodeType
 
     // Structs
     NStruct,
+    NStructType,
     NStructProperty,
     NAccess,
 

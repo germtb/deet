@@ -207,23 +207,16 @@ void print_node(Context *context, Node *node, int depth)
         print(context, "false");
         break;
     }
+    case NStructType:
+    {
+        print(context, "{");
+        print_children(context, node, depth + 1);
+        print(context, "\n%s}", indentation);
+        break;
+    }
     case NStruct:
     {
-        if (context->parent.type == InStructDeclaration)
-        {
-            print(context, "{");
-            print_children(context, node, depth + 1);
-            print(context, "\n%s}", indentation);
-        }
-        else if (context->parent.type == InVarDeclaration)
-        {
-            print_children(context, node, depth);
-        }
-        else
-        {
-            print(context, "Unexpected case Nin Struct");
-        }
-
+        print_children(context, node, depth);
         break;
     }
     case NStructProperty:
@@ -344,7 +337,14 @@ void print_node(Context *context, Node *node, int depth)
         print(context, "\n");
         CType return_type = infer_ctype(context, n_child(node, 2));
 
-        print(context, "%s ", return_type.name);
+        if (return_type.is_primitive)
+        {
+            print(context, "%s ", return_type.name);
+        }
+        else
+        {
+            print(context, "%s *", return_type.name);
+        }
         print_node(context, n_child(node, 0), depth);
         print_node(context, n_child(node, 1), depth);
         print_node(context, n_child(node, 3), depth);
