@@ -39,9 +39,8 @@ c_print_test:
 	@$(CC) $(CORE_DEPENDENCIES) ./core/c_print/c_print_test.c && ./a.out
 	@rm -f *.out
 
-# c_print:
-# 	$(CC) $(CORE_DEPENDENCIES) ./core/ast/ast.c ./core/c_print/c_print.c && ./a.out
-# 	@rm -f *.out
+watch_c_print_test:
+	@fswatch -o . | while read; do sleep 0.5; make c_print_test; done
 
 vscode:
 	@rm -rf ~/.vscode/extensions/deet-vscode

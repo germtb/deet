@@ -245,15 +245,15 @@ fn other_function(): u8 {
 effect @malloc = (struct: NameOfStruct) => StructPointer;
 
 fn make_person(): @malloc {
-    const person = Person {
+    const person = @malloc Person {
         name: "Chal",
         age: 35,
     };
 }
 
 fn main()  {
-    const person = malloc(Person { name: "Chal", age: 35 });
-    log(person);
+    const person = make_person()
+        with @malloc malloc;
     free(person);
 }
 

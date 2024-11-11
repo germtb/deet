@@ -553,15 +553,10 @@ void print_node(Context *context, Node *node, int depth)
     case NStructDeclaration:
     {
         char *name = n_child(node, 0)->str_value;
-        CType type = make_pointer_ctype(name);
-        // CType *type = malloc(sizeof(CType));
-        // type->bytesize = 1;
-        // type->name = c_type_name;
-        // type->is_primitive = false;
-        // type->primitive_name = c_type_primitive_name;
-
-        // Careful I am using a STACK ADDRESS!!
-        hashmap_set(context->zone, context->types, name, &type);
+        CType *type = zalloc(context->zone, sizeof(CType));
+        type->is_primitive = false;
+        type->name = name;
+        hashmap_set(context->zone, context->types, name, type);
 
         Parent outer_parent = context->parent;
         context->parent = (Parent){InStructDeclaration, name};

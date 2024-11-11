@@ -20,6 +20,16 @@ CType make_ctype_not_found()
     return make_pointer_ctype("NOT_FOUND");
 }
 
+void print_type(char *key, void *value)
+{
+    if (key == NULL || value == NULL)
+    {
+        return;
+    }
+    CType *type = (CType *)value;
+    printf("{ key: %s, value: %s}\n", key, type->name);
+}
+
 CType infer_ctype(Context *context, Node *node)
 {
     switch (node->type)

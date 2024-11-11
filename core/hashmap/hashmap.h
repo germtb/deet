@@ -35,7 +35,7 @@ HashmapEntry *hashmap_get_entry(Hashmap *map, char *key);
 HashmapEntry *hashmap_iterator(Zone *zone, Hashmap *map);
 
 // Debug
-void print_hashmap(Hashmap *map);
+void print_hashmap(Hashmap *map, void (*print)(char *key, void *value));
 void print_iterator(HashmapEntry *entry);
 
 #endif // HASHMAP_H_

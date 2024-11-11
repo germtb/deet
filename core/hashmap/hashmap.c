@@ -182,7 +182,7 @@ HashmapEntry *hashmap_iterator(Zone *zone, Hashmap *map)
     return head;
 }
 
-void print_hashmap(Hashmap *map)
+void print_hashmap(Hashmap *map, void (*print)(char *key, void *value))
 {
     for (uint32_t i = 0; i < map->capacity; i++)
     {
@@ -190,16 +190,15 @@ void print_hashmap(Hashmap *map)
 
         if (entry == NULL)
         {
-            printf("NULL\n");
+            print(NULL, NULL);
         }
         else
         {
             while (entry != NULL)
             {
-                printf("{ key: %s, value: %s } -> ", entry->key, (char *)entry->value);
+                print(entry->key, entry->value);
                 entry = entry->next;
             }
-            printf(" NULL\n");
         }
     }
 }
