@@ -6,6 +6,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <stdbool.h>
 
 bool string_match_ignore_whitespace(const char *given, const char *expected)
 {
@@ -44,9 +45,12 @@ bool string_match_ignore_whitespace(const char *given, const char *expected)
     return true;
 }
 
-int success = 1;
+typedef struct TestAcc
+{
+    bool success;
+} TestAcc;
 
-void test(char *given, char *expected)
+void test(TestAcc *acc, char *given, char *expected)
 {
     char *s = c_print(given, false);
     if (!string_match_ignore_whitespace(s, expected))
@@ -56,34 +60,38 @@ void test(char *given, char *expected)
         printf("---\n");
         printf("Got:\n%s\n", s);
         printf("---\n");
-        success = success == 0;
+        acc->success = false;
     }
 }
 
 int main()
 {
-    test("fn main() {}", "void main() {}");
-    test("fn main(): u8 {}", "uint8_t main() {}");
-    test("fn main(): u8 { return 10; }", "uint8_t main() { return 10; }");
-    test("fn main(): u8 { const i: u8 = 10; return i; }", "uint8_t main() { uint8_t i = 10; return i; }");
-    test("fn main() { const i = true; }", "void main() { bool i = true; }");
-    test("fn main() { const s = \"hello\"; }", "void main() { String s = str(\"hello\");}");
-    test("struct A {};", "typedef struct A {} A;");
-    test("struct A { name: String };", "typedef struct A { String name; } A;");
-    test("struct A { next: A };", "typedef struct A { struct A *next; } A;");
-    test("struct A {}; struct B { a: A };", "typedef struct A {} A; typedef struct B { A *a; } B;");
-    test("struct A {}; fn main(): A {}", "typedef struct A {} A; A *main() {}");
-    test("12u8;", "12;");
-    test("1 + 1;", "1 + 1;");
-    test("1 > 1;", "1 > 1;");
-    test("1 == 1;", "1 == 1;");
-    test("1 && 1;", "1 && 1;");
-    test("foo++;", "foo++;");
-    test("true;", "true;");
-    test("struct A {}; const a: A = {};", "");
+    TestAcc acc = (TestAcc){.success = true};
+
+    test(&acc, "fn main() {}", "void main() {}");
+    test(&acc, "fn main(): u8 {}", "uint8_t main() {}");
+    test(&acc, "fn main(): u8 { return 10; }", "uint8_t main() { return 10; }");
+    test(&acc, "fn main(): u8 { const i: u8 = 10; return i; }", "uint8_t main() { uint8_t i = 10; return i; }");
+    test(&acc, "fn main() { const i = true; }", "void main() { bool i = true; }");
+    test(&acc, "fn main() { const s = \"hello\"; }", "void main() { String s = str(\"hello\");}");
+    test(&acc, "struct A {};", "typedef struct A {} A;");
+    test(&acc, "struct A { name: String };", "typedef struct A { String name; } A;");
+    test(&acc, "struct A { next: A };", "typedef struct A { struct A *next; } A;");
+    test(&acc, "struct A {}; struct B { a: A };", "typedef struct A {} A; typedef struct B { A *a; } B;");
+    test(&acc, "struct A {}; fn main(): A {}", "typedef struct A {} A; A *main() {}");
+    test(&acc, "12u8;", "12;");
+    test(&acc, "1 + 1;", "1 + 1;");
+    test(&acc, "1 > 1;", "1 > 1;");
+    test(&acc, "1 == 1;", "1 == 1;");
+    test(&acc, "1 && 1;", "1 && 1;");
+    test(&acc, "foo++;", "foo++;");
+    test(&acc, "true;", "true;");
+    test(&acc, "while(true) {}", "while(true) {}");
+    test(&acc, "\"Hello {foo}\";", "str_template(zone, \"Hello %s\", foo);");
+    // test("struct A {}; const a: A = {};", "");
     // test("{ foo: 12u8 };", "");
 
-    if (success == 1)
+    if (acc.success == true)
     {
         printf("All tests passed\n");
     }

@@ -688,22 +688,25 @@ Token *tokenize(char *src)
         {
             make_token(TStringInterpolation, &acc, 0);
             read_next(&acc);
+            reset_acc(&acc);
             acc.type = InStringInterpolatedValue;
         }
         else if (acc.type == InStringInterpolation && peek == '{')
         {
             make_token(TStringInterpolation, &acc, 0);
             read_next(&acc);
+            reset_acc(&acc);
             acc.type = InStringInterpolatedValue;
         }
         else if (acc.type == InStringInterpolatedValue && c == '}')
         {
-            make_token(TIdentifier, &acc, 0);
+            make_token(TIdentifier, &acc, 1);
             acc.type = InStringInterpolation;
 
             if (peek == '{')
             {
                 read_next(&acc);
+                reset_acc(&acc);
                 acc.type = InStringInterpolatedValue;
             }
         }

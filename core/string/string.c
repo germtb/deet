@@ -124,6 +124,14 @@ String *vstr_template(Zone *zone, va_list args)
             c++;
             switch (*c)
             {
+            case '%':
+            {
+                char *substr = zalloc(zone, 2 * sizeof(char));
+                substr[0] = *c;
+                substr[1] = '\0';
+                array_push(zone, results, str(zone, substr));
+                break;
+            }
             case 's':
             {
                 array_push(zone, results, str(zone, va_arg(args, char *)));

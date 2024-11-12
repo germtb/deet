@@ -10,6 +10,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <assert.h>
 
 void print(Context *context, ...)
 {
@@ -79,6 +80,11 @@ void print_children(Context *context, Node *node, int depth)
     }
 }
 
+void print_n_child(Context *context, Node *node, uint32_t count, int depth)
+{
+    print_node(context, n_child(node, count), depth);
+}
+
 void print_op(Context *context, Node *node, int depth, char *op)
 {
     print_node(context, n_child(node, 0), depth);
@@ -100,9 +106,52 @@ void print_node(Context *context, Node *node, int depth)
     switch (node->type)
     {
     case NStringInterpolation:
-        print(context, "TODO");
-        print_children(context, node, depth);
+    {
+
+        Array *templated_values = array(context->zone, 12);
+
+        print(context, "str_template(zone, %s", node->str_value);
+
+        NodeList *child = node->head;
+
+        while (child != NULL)
+        {
+            Node *value = child->value;
+
+            if (value->type == NStringInterpolation)
+            {
+                print(context, value->str_value);
+            }
+            else
+            {
+                // TODO: We should infer the type rather than assume it is a string
+                print(context, "%%s");
+                array_push(context->zone, templated_values, value);
+            }
+
+            child = child->next;
+        }
+
+        assert(templated_values->size > 0);
+
+        print(context, ", ");
+
+        for (uint32_t i = 0; i < templated_values->size; i++)
+        {
+            Node *templated_value = array_at(templated_values, i);
+            printf("Printing %s\n", templated_value->str_value);
+            print(context, templated_value);
+
+            if (i < templated_values->size - 1)
+            {
+                print(context, ", ");
+            }
+        }
+
+        print(context, ")");
+
         break;
+    }
     case NPostIncrement:
     {
         print_children(context, node, depth);
@@ -593,7 +642,10 @@ void print_node(Context *context, Node *node, int depth)
     }
     case NWhile:
     {
-        // TODO
+        print(context, "%swhile (", indentation);
+        print_n_child(context, node, 0, depth);
+        print(context, ")");
+        print_n_child(context, node, 1, depth);
         break;
     }
     case NContinue:
