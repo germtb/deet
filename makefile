@@ -11,36 +11,58 @@ CORE_DEPENDENCIES= \
 	./core/c_print/ctype.c \
 	./core/ast/ast.c
 
+zone:
+	@make zone_test
+
 zone_test:
 	$(CC) $(CORE_DEPENDENCIES) ./core/zone/zone_test.c && ./a.out
 	@rm -f *.out
+
+string:
+	@make string_test
 
 string_test:
 	$(CC) $(CORE_DEPENDENCIES) ./core/string/string_test.c && ./a.out
 	@rm -f *.out
 
+array:
+	@make array_test
+
 array_test:
 	$(CC)  $(CORE_DEPENDENCIES) ./core/array/array_test.c && ./a.out
 	@rm -f *.out
+
+parser:
+	@make parser_test
 
 parser_test:
 	$(CC) $(CORE_DEPENDENCIES) ./core/parser/parser_test.c && ./a.out
 	@rm -f *.out
 
+lexer:
+	@make lexer_test
+
 lexer_test:
 	$(CC) $(CORE_DEPENDENCIES) ./core/lexer/lexer_test.c && ./a.out
 	@rm -f *.out
+
+hashmap:
+	@make hashmap_test
 
 hashmap_test:
 	$(CC) $(CORE_DEPENDENCIES) ./core/hashmap/hashmap_test.c && ./a.out
 	@rm -f *.out
 
+c_print:
+	@make c_print_test
+
 c_print_test:
 	@$(CC) $(CORE_DEPENDENCIES) ./core/c_print/c_print_test.c && ./a.out
 	@rm -f *.out
 
-watch_c_print_test:
-	@fswatch -o . | while read; do sleep 0.5; make c_print_test; done
+#  shell command: fswatch -e ".*" -i "\\.c$" -i "\\.h$" . | xargs -n1 -I {} sh -c 'make "$(basename "{}" | sed "s/\\.[ch]$//")"'
+watch:
+	@fswatch -e ".*" -i "\\.c$$" -i "\\.h$$" . | xargs -n1 -I {} sh -c 'make "$$(basename "{}" | sed "s/\\.[ch]$$//")"'
 
 vscode:
 	@rm -rf ~/.vscode/extensions/deet-vscode

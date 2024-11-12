@@ -80,7 +80,7 @@ int main()
     test("1 && 1;", "1 && 1;");
     test("foo++;", "foo++;");
     test("true;", "true;");
-    // test("struct A {}; const a: A = {};", "");
+    test("struct A {}; const a: A = {};", "");
     // test("{ foo: 12u8 };", "");
 
     if (success == 1)
