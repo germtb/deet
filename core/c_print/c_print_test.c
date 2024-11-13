@@ -89,7 +89,7 @@ int main()
     test(&acc, "while(true) {}", "while(true) {}");
     test(&acc, "\"Hello {foo}\";", "str_template(zone, \"Hello %s\", foo);");
     test(&acc, "\"Hello {foo} {bar}\";", "str_template(zone, \"Hello %s %s\", foo, bar);");
-    test(&acc, "struct A {}; fn main() { const a = @malloc A {}; }", "");
+    test(&acc, "struct A {}; fn main() { const a = @new A({}); }", "");
     // test("struct A {}; const a: A = {};", "");
     // test("{ foo: 12u8 };", "");
 
