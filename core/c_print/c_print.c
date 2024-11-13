@@ -139,8 +139,7 @@ void print_node(Context *context, Node *node, int depth)
         for (uint32_t i = 0; i < templated_values->size; i++)
         {
             Node *templated_value = array_at(templated_values, i);
-            printf("Printing %s\n", templated_value->str_value);
-            print(context, templated_value);
+            print_node(context, templated_value, depth);
 
             if (i < templated_values->size - 1)
             {
