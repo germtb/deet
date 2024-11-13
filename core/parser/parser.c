@@ -773,9 +773,26 @@ static Node *access(ParserAcc *acc)
     return left;
 }
 
+static Node *effect(ParserAcc *acc)
+{
+    Node *node = make_node(NEffect);
+    append_child(node, effect_identifier(acc));
+    append_child(node, expression(acc));
+    return node;
+}
+
+static Node *effect_expression(ParserAcc *acc)
+{
+    if (peek(acc, TEffectIdentifier))
+    {
+        return effect(acc);
+    }
+    return access(acc);
+}
+
 static Node *expression(ParserAcc *acc)
 {
-    return access(acc);
+    return effect_expression(acc);
 }
 
 static Node *return_statement(ParserAcc *acc)
@@ -1202,6 +1219,8 @@ const char *get_node_name(enum NodeType type)
         return "For";
     case NContinue:
         return "Continue";
+    case NEffect:
+        return "Effect";
     case NBreak:
         return "Break";
     case NStructDeclaration:

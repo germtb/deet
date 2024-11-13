@@ -56,6 +56,9 @@ enum NodeType
     NTypeIdentifier,
     NEffectIdentifier,
 
+    // Effects
+    NEffect,
+
     // Functions
     NFunctionDeclaration,
     NFunction,

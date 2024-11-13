@@ -235,6 +235,11 @@ CType infer_ctype(Context *context, Node *node)
         // TODO
         break;
     }
+    case NEffect:
+    {
+        // TODO
+        break;
+    }
     case NBreak:
     {
         // TODO

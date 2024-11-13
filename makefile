@@ -15,42 +15,42 @@ zone:
 	@make zone_test
 
 zone_test:
-	$(CC) $(CORE_DEPENDENCIES) ./core/zone/zone_test.c && ./a.out
+	@$(CC) $(CORE_DEPENDENCIES) ./core/zone/zone_test.c && ./a.out
 	@rm -f *.out
 
 string:
 	@make string_test
 
 string_test:
-	$(CC) $(CORE_DEPENDENCIES) ./core/string/string_test.c && ./a.out
+	@$(CC) $(CORE_DEPENDENCIES) ./core/string/string_test.c && ./a.out
 	@rm -f *.out
 
 array:
 	@make array_test
 
 array_test:
-	$(CC)  $(CORE_DEPENDENCIES) ./core/array/array_test.c && ./a.out
+	@$(CC)  $(CORE_DEPENDENCIES) ./core/array/array_test.c && ./a.out
 	@rm -f *.out
 
 parser:
 	@make parser_test
 
 parser_test:
-	$(CC) $(CORE_DEPENDENCIES) ./core/parser/parser_test.c && ./a.out
+	@$(CC) $(CORE_DEPENDENCIES) ./core/parser/parser_test.c && ./a.out
 	@rm -f *.out
 
 lexer:
 	@make lexer_test
 
 lexer_test:
-	$(CC) $(CORE_DEPENDENCIES) ./core/lexer/lexer_test.c && ./a.out
+	@$(CC) $(CORE_DEPENDENCIES) ./core/lexer/lexer_test.c && ./a.out
 	@rm -f *.out
 
 hashmap:
 	@make hashmap_test
 
 hashmap_test:
-	$(CC) $(CORE_DEPENDENCIES) ./core/hashmap/hashmap_test.c && ./a.out
+	@$(CC) $(CORE_DEPENDENCIES) ./core/hashmap/hashmap_test.c && ./a.out
 	@rm -f *.out
 
 c_print:

@@ -652,6 +652,11 @@ void print_node(Context *context, Node *node, int depth)
         // TODO
         break;
     }
+    case NEffect:
+    {
+        // TODO
+        break;
+    }
     case NBreak:
     {
         // TODO
